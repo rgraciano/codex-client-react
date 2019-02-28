@@ -10,7 +10,7 @@ let cardObjects = [ { cardId: 'first', cardName: 'imaninja' }, { cardId: 'second
 
 //ReactDOM.render(<CardList listName="Hand" cardObjects={cardObjects} />, document.getElementById('root'));
 
-ReactDOM.render(<CodexGame />, document.getElementById('root'));
+ReactDOM.render(<CodexGame actionName="NewGame" />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
