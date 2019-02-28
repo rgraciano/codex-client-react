@@ -4,7 +4,7 @@ import './App.css';
 export class StringMap { [s: string]: string; }
 export class ObjectMap { [s: string]: object; }
 
-async function callServer(actionName: string) {
+async function callServer(payload: ObjectMap) {
     let resp = await fetch('http://localhost:8080/newgame');
     return resp.json();
 }
@@ -40,16 +40,16 @@ export class CardList extends Component<{listName: string, cardObjects: StringMa
     }
 }
 
-export const CodexGame: React.FunctionComponent<{ actionName: string }> = ({ actionName }) => {
-    const [data, updateData] = useState();
-    const [playerBoard, updatePlayerBoard] = useState();
-    const [opponentBoard, updateOpponentBoard] = useState();
-    const [stateId, updateStateId] = useState();
-
-    // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30551
-    // https://github.com/facebook/react/issues/14326#issuecomment-441680293
+export const Updater: React.FunctionComponent<{ 
+        updateData: React.Dispatch<any>, 
+        updatePlayerBoard: React.Dispatch<any>, 
+        updateOpponentBoard: React.Dispatch<any>, 
+        updateStateId: React.Dispatch<any>,
+        payload: ObjectMap
+    }> = ({ updateData, updatePlayerBoard, updateOpponentBoard, updateStateId, payload }) => {
+    
     useEffect(() => {
-        callServer(actionName).then(gameState => {
+        callServer(payload).then(gameState => {
             updateData(gameState);
 
             if (gameState.activePlayer == 1) {
@@ -64,10 +64,24 @@ export const CodexGame: React.FunctionComponent<{ actionName: string }> = ({ act
             updateStateId(gameState.state);
         }
         );
-    }, [actionName]);
+    }, [payload]);
 
-    if (!data || !playerBoard || !opponentBoard)
-        return <> <h1>Loading...</h1> </>
+    return <> </>;
+}
+
+export const CodexGame: React.FunctionComponent<{ actionName: string }> = ({ actionName }) => {
+    const [data, updateData] = useState();
+    const [playerBoard, updatePlayerBoard] = useState();
+    const [opponentBoard, updateOpponentBoard] = useState();
+    const [stateId, updateStateId] = useState();
+
+    if (!data || !playerBoard || !opponentBoard) {
+        return <> 
+            <Updater updateData={updateData} updateOpponentBoard={updateOpponentBoard} 
+                        updatePlayerBoard={updatePlayerBoard} updateStateId={updateStateId} payload={ {} } />
+            <h1>Loading...</h1> 
+        </>
+    }
 
     return <> {
         <div>
