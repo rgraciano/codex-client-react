@@ -9,8 +9,8 @@
             "request": "launch",
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}",
-            "runtimeExecutable": "E:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+            "webRoot": "${workspaceFolder}"
+           // "runtimeExecutable": "E:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
         }
     ]
 }

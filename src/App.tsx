@@ -59,8 +59,10 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
         switch(actionName) {
             case 'PlayCard':
                 if (!cardObject.canPlay) return null;
+                break;
             case 'Attack':
                 if (!cardObject.canAttack) return null;
+                break;
             
         }
         return (skipValidIdCheck || isValidId(cardObject.cardId)) && isValidAction(actionName) && <li><a href="#" onClick={callApiAction(actionName)}>{actionTitle}</a></li>;
@@ -89,7 +91,7 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
                     <a href="#" className="Card" key={cardObject.cardId} id={cardObject.cardId}>[{cardObject.name}]&nbsp;&nbsp;</a>
                     <div className="cardMenu">
                         <ul>
-                            { playerActions }
+                            { playerActions() }
                             
                             { possibleAction('AttackCardsChoice', 'Choose Defender') }
                             { possibleAction('AttacksChoice', 'Resolve Trigger: Attacks') }
