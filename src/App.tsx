@@ -40,11 +40,22 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
         updater(payload);
     }
 
+    function isValidId(id: string) {
+        return (validIds.findIndex(tid => tid === id) > -1);
+    }
+
     function isValidAction(actionName: string): boolean {
         return (validActions.findIndex(nm => nm === actionName) > -1);
     }
 
-    function menuItem(actionName: string, actionTitle: string) {
+    /** 
+     * Lists this action if it's in the back-end supplied list of valid actions, 
+     * and if this card is in the back-end list of valid cards for this action.
+     * 
+     * Some actions don't use the list of valid IDs - they use an attribute on the card instead -
+     * so we allow those actions to skip the validIdCheck here.
+     */
+    function possibleAction(actionName: string, actionTitle: string, skipValidIdCheck = false) {
         switch(actionName) {
             case 'PlayCard':
                 if (!cardObject.canPlay) return null;
@@ -52,16 +63,16 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
                 if (!cardObject.canAttack) return null;
             
         }
-        return isValidAction(actionName) && <li><a href="#" onClick={callApiAction(actionName)}>{actionTitle}</a></li>;
+        return (skipValidIdCheck || isValidId(cardObject.cardId)) && isValidAction(actionName) && <li><a href="#" onClick={callApiAction(actionName)}>{actionTitle}</a></li>;
     }
 
-    function playerOptions() {
+    function playerActions() {
         if (whoControlsThis == "player") {
             return (
                 <>
-                    { cardObject.canPlay && menuItem('PlayCard', 'Play') }
-                    { cardObject.canAttack && menuItem('Attack', 'Attack') }
-                    { cardObject.canUseAbility && menuItem('Ability', 'Use Ability') }
+                    { cardObject.canPlay && possibleAction('PlayCard', 'Play', true) }
+                    { cardObject.canAttack && possibleAction('Attack', 'Attack', true) }
+                    { cardObject.canUseAbility && possibleAction('Ability', 'Use Ability', true) }
                 </>
             );
         }
@@ -78,15 +89,15 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
                     <a href="#" className="Card" key={cardObject.cardId} id={cardObject.cardId}>[{cardObject.name}]&nbsp;&nbsp;</a>
                     <div className="cardMenu">
                         <ul>
-                            { playerOptions }
+                            { playerActions }
                             
-                            { menuItem('AttackCardsChoice', 'Choose Defender') }
-                            { menuItem('AttacksChoice', 'Resolve Trigger: Attacks') }
-                            { menuItem('DiesOrLeavesChoice', 'Resolve Trigger: Dies') }
-                            { menuItem('DiesOrLeavesChoice', 'Resolve Trigger: Leaves') }
-                            { menuItem('UpkeepChoice', 'Resolve Trigger: Upkeep') }
-                            { menuItem('ArrivesChoice', 'Resolve Trigger: Arrives') }
-                            { menuItem('DestroyChoice', 'Resolve Trigger: Destroy') }
+                            { possibleAction('AttackCardsChoice', 'Choose Defender') }
+                            { possibleAction('AttacksChoice', 'Resolve Trigger: Attacks') }
+                            { possibleAction('DiesOrLeavesChoice', 'Resolve Trigger: Dies') }
+                            { possibleAction('DiesOrLeavesChoice', 'Resolve Trigger: Leaves') }
+                            { possibleAction('UpkeepChoice', 'Resolve Trigger: Upkeep') }
+                            { possibleAction('ArrivesChoice', 'Resolve Trigger: Arrives') }
+                            { possibleAction('DestroyChoice', 'Resolve Trigger: Destroy') }
                         </ul>
                     </div>
                 </>
