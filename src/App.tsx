@@ -22,8 +22,8 @@ async function callServer(payload: StringMap) {
 }
 
 export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, updater: Updater, listName: string, cardObject: StringMap }> = ({ whoControlsThis, updater, listName, cardObject }) => {
-    const [validActions, updateValidActions] = useState([]);
-    const [validIds, updateValidIds] = useState([]);
+    const [validActions, updateValidActions] = useState(['NewGame']);
+    const [validIds, updateValidIds] = useState(['none']);
 
     // will need a sub-menu...
     function patrol(event: React.MouseEvent<HTMLElement>) {
@@ -70,10 +70,10 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
 
     return (
         <PhaseContext.Consumer>
-            {({phase}) => (
+            { ({validActions, idsToResolve}) => (
                 <>
-                    { updateValidActions(phase.validActions) }
-                    { updateValidIds(phase.idsToResolve) }
+                    { updateValidActions(validActions) }
+                    { updateValidIds(idsToResolve) }
 
                     <a href="#" className="Card" key={cardObject.cardId} id={cardObject.cardId}>[{cardObject.name}]&nbsp;&nbsp;</a>
                     <div className="cardMenu">
@@ -118,8 +118,8 @@ export const CardList: React.FunctionComponent<{ whoControlsThis: WhoControlsThi
 
 const PhaseContext = React.createContext(
     { 
-        phase: { validActions: [],
-                 idsToResolve: [] }
+        validActions: [],
+        idsToResolve: []
     });
 
 export const CodexGame: React.FunctionComponent<{ payload: StringMap }> = ({ payload }) => {
@@ -172,7 +172,7 @@ export const CodexGame: React.FunctionComponent<{ payload: StringMap }> = ({ pay
 }
 
 type Updater = (payload: StringMap) => void;
-type ObjectMap = { [key: string]: Object };
+type StringArrayMap = { [key: string]: string[] };
 type WhoControlsThis = ('player' | 'opponent');
 
 export default CodexGame;
