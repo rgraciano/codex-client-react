@@ -65,7 +65,7 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
                 break;
             
         }
-        return (skipValidIdCheck || isValidId(cardObject.cardId)) && isValidAction(actionName) && <li><a href="#" onClick={callApiAction(actionName)}>{actionTitle}</a></li>;
+        return (skipValidIdCheck || isValidId(cardObject.cardId)) && isValidAction(actionName) && <li className="cardLI"><a href="#" onClick={callApiAction(actionName)}>{actionTitle}</a></li>;
     }
 
     function playerActions() {
@@ -87,20 +87,21 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
                 <>
                     { updateValidActions(validActions) }
                     { updateValidIds(idsToResolve) }
-
-                    <a href="#" className="Card" key={cardObject.cardId} id={cardObject.cardId}>[{cardObject.name}]&nbsp;&nbsp;</a>
-                    <div className="cardMenu">
-                        <ul>
-                            { playerActions() }
-                            
-                            { possibleAction('AttackCardsChoice', 'Choose Defender') }
-                            { possibleAction('AttacksChoice', 'Resolve Trigger: Attacks') }
-                            { possibleAction('DiesOrLeavesChoice', 'Resolve Trigger: Dies') }
-                            { possibleAction('DiesOrLeavesChoice', 'Resolve Trigger: Leaves') }
-                            { possibleAction('UpkeepChoice', 'Resolve Trigger: Upkeep') }
-                            { possibleAction('ArrivesChoice', 'Resolve Trigger: Arrives') }
-                            { possibleAction('DestroyChoice', 'Resolve Trigger: Destroy') }
-                        </ul>
+                    <div className="cardOuterDiv">
+                        <a href="#" className="card" key={cardObject.cardId} id={cardObject.cardId}>[{cardObject.name}]</a>
+                        <div className="cardInnerDiv">
+                            <ul className="cardMenu">
+                                { playerActions() }
+                                
+                                { possibleAction('AttackCardsChoice', 'Choose Defender') }
+                                { possibleAction('AttacksChoice', 'Resolve Trigger: Attacks') }
+                                { possibleAction('DiesOrLeavesChoice', 'Resolve Trigger: Dies') }
+                                { possibleAction('DiesOrLeavesChoice', 'Resolve Trigger: Leaves') }
+                                { possibleAction('UpkeepChoice', 'Resolve Trigger: Upkeep') }
+                                { possibleAction('ArrivesChoice', 'Resolve Trigger: Arrives') }
+                                { possibleAction('DestroyChoice', 'Resolve Trigger: Destroy') }
+                            </ul>
+                        </div>
                     </div>
                 </>
             )}
@@ -123,10 +124,10 @@ export const CardList: React.FunctionComponent<{ whoControlsThis: WhoControlsThi
     
     
     function cards(cardObjects: StringMap[]) {
-        return cardObjects.map(cardObj => <Card key={cardObj.cardId} whoControlsThis={whoControlsThis} updater={updater} listName={listName} cardObject={cardObj}></Card>);
+        return cardObjects.map(cardObj => <Card key={cardObj.cardId} whoControlsThis={whoControlsThis} updater={updater} listName={listName} cardObject={cardObj} />);
     }
 
-    return (<div>{listName}: { cards(cardObjects) }</div>);
+    return (<div><h2>{listName}:</h2> { cards(cardObjects) }</div>);
 }
 
 const PhaseContext = React.createContext(
@@ -173,11 +174,10 @@ export const CodexGame: React.FunctionComponent<{ payload: StringMap }> = ({ pay
                 <PhaseProvider value={gameState.phaseStack.stack[gameState.phaseStack.stack.length - 1]}>
                     <h1>Player {gameState.activePlayer}, Turn ImplementLater</h1>
                     <h1>Opponent Board</h1>
-                    <h3>Squad Leader: </h3>
-                    <h3><CardList whoControlsThis="opponent" listName="In Play" updater={handleUpdate} cardObjects={opponentBoard.inPlay} /></h3>
+                    <CardList whoControlsThis="opponent" listName="In Play" updater={handleUpdate} cardObjects={opponentBoard.inPlay} />
                     <h1>Your Board</h1>
-                    <h3><CardList whoControlsThis="player" listName="Hand" updater={handleUpdate} cardObjects={playerBoard.hand} /></h3>
-                    <h3><CardList whoControlsThis="player" listName="In Play" updater={handleUpdate} cardObjects={playerBoard.inPlay} /></h3>
+                    <CardList whoControlsThis="player" listName="Hand" updater={handleUpdate} cardObjects={playerBoard.hand} />
+                    <CardList whoControlsThis="player" listName="In Play" updater={handleUpdate} cardObjects={playerBoard.inPlay} />
                 </PhaseProvider>
              </div>
         </div>   
