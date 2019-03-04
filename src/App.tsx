@@ -41,11 +41,11 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
     }
 
     function isValidId(id: string) {
-        return (validIds.findIndex(tid => tid === id) > -1);
+        return validIds && (validIds.findIndex(tid => tid === id) > -1);
     }
 
     function isValidAction(actionName: string): boolean {
-        return (validActions.findIndex(nm => nm === actionName) > -1);
+        return validActions && (validActions.findIndex(nm => nm === actionName) > -1);
     }
 
     /** 
@@ -108,7 +108,7 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
     );
 }
 
-
+/*
 export const Patroller: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, patrollerSlot: string, updater: Updater, cardObject: StringMap }> 
                                             = ({ whoControlsThis, patrollerSlot, updater, cardObject }) => {
     return (
@@ -116,14 +116,14 @@ export const Patroller: React.FunctionComponent<{ whoControlsThis: WhoControlsTh
             <h3>{patrollerSlot}: <Card whoControlsThis={whoControlsThis} updater={updater} listName={"Patrollers"} cardObject={cardObject} /></h3>
         </div>
     );
-}
+}*/
 
 export const CardList: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, updater: Updater, listName: string, cardObjects: StringMap[] }> 
                                             = ({ whoControlsThis, updater, listName, cardObjects }) => {
     
     
     function cards(cardObjects: StringMap[]) {
-        return cardObjects.map(cardObj => <Card whoControlsThis={whoControlsThis} updater={updater} listName={listName} cardObject={cardObj}></Card>);
+        return cardObjects.map(cardObj => <Card key={cardObj.cardId} whoControlsThis={whoControlsThis} updater={updater} listName={listName} cardObject={cardObj}></Card>);
     }
 
     return (<div>{listName}: { cards(cardObjects) }</div>);
