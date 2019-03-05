@@ -172,10 +172,13 @@ export const CodexGame: React.FunctionComponent<{ payload: StringMap }> = ({ pay
         <div>
             <div>
                 <PhaseProvider value={gameState.phaseStack.stack[gameState.phaseStack.stack.length - 1]}>
-                    <h1>Player {gameState.activePlayer}, Turn ImplementLater</h1>
+                    <h1>Player {gameState.activePlayer}, Turn {playerBoard.turnCount}</h1>
                     <h1>Opponent Board</h1>
+                    <h3>Gold: {opponentBoard.gold}, Workers: {opponentBoard.numWorkers}, 
+                        Hand: {opponentBoard.hand.length}, Discard: {opponentBoard.discard.length}</h3>
                     <CardList whoControlsThis="opponent" listName="In Play" updater={handleUpdate} cardObjects={opponentBoard.inPlay} />
                     <h1>Your Board</h1>
+                    <h3>Gold: {playerBoard.gold}, Workers: {playerBoard.numWorkers}</h3>
                     <CardList whoControlsThis="player" listName="Hand" updater={handleUpdate} cardObjects={playerBoard.hand} />
                     <CardList whoControlsThis="player" listName="In Play" updater={handleUpdate} cardObjects={playerBoard.inPlay} />
                 </PhaseProvider>
@@ -185,7 +188,6 @@ export const CodexGame: React.FunctionComponent<{ payload: StringMap }> = ({ pay
 }
 
 type Updater = (payload: StringMap) => void;
-type StringArrayMap = { [key: string]: string[] };
 type WhoControlsThis = ('player' | 'opponent');
 
 export default CodexGame;
