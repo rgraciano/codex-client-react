@@ -8,6 +8,30 @@ h2 {
   margin-block-end: 0;
 }
 
+.boards {
+  display: flex;
+}
+
+.playerBoard {
+  flex: 65%;
+}
+
+.opponentBoard {
+  flex: 35%;
+}
+
+.patrollersAndHand {
+  display: flex;
+}
+
+.playerHand {
+  flex: 40%;
+}
+
+.playerPatrollers {
+  flex: 60%;
+}
+
 .cardOuterDiv {
   padding-top: 15px;
 }

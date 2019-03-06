@@ -178,7 +178,6 @@ export const CodexGame: React.FunctionComponent<{ payload: StringMap }> = ({ pay
 
     return <> {
         <div>
-            <div>
                 <GameStateProvider value= { 
                     { 
                       'opponentBoard': opponentBoard,
@@ -186,16 +185,34 @@ export const CodexGame: React.FunctionComponent<{ payload: StringMap }> = ({ pay
                       'phase': gameState.phaseStack.stack[gameState.phaseStack.stack.length - 1]
                     }}>
                     <h1>Player {gameState.activePlayer}, Turn {playerBoard.turnCount}</h1>
-                    <h1>Opponent Board</h1>
-                    <h3>Gold: {opponentBoard.gold}, Workers: {opponentBoard.numWorkers}, 
-                        Hand: {opponentBoard.hand.length}, Discard: {opponentBoard.discard.length}</h3>
-                    <CardList whoControlsThis="opponent" listName="In Play" updater={handleUpdate} cardObjects={opponentBoard.inPlay} />
-                    <h1>Your Board</h1>
-                    <h3>Gold: {playerBoard.gold}, Workers: {playerBoard.numWorkers}</h3>
-                    <CardList whoControlsThis="player" listName="Hand" updater={handleUpdate} cardObjects={playerBoard.hand} />
-                    <CardList whoControlsThis="player" listName="In Play" updater={handleUpdate} cardObjects={playerBoard.inPlay} />
+
+                    <div className="boards">
+                        
+                        <div className="playerBoard">
+                            <h1>Your Board</h1>
+                            <h3>Gold: {playerBoard.gold}, Workers: {playerBoard.numWorkers}</h3>
+                            <div className="patrollersAndHand">
+                                <div className="playerHand">
+                                    <CardList whoControlsThis="player" listName="Hand" updater={handleUpdate} cardObjects={playerBoard.hand} />
+                                </div>
+                                <div className="playerPatrollers">
+                                    <div><h2>Patrollers:</h2></div>
+                                </div>
+                            </div>
+                            <div className="playerInPlay">
+                                <CardList whoControlsThis="player" listName="In Play" updater={handleUpdate} cardObjects={playerBoard.inPlay} />
+                            </div>
+                        </div>
+
+                        <div className="opponentBoard">
+                            <h1>Opponent Board</h1>
+                            <h3>Gold: {opponentBoard.gold}, Workers: {opponentBoard.numWorkers}, 
+                                Hand: {opponentBoard.hand.length}, Discard: {opponentBoard.discard.length}</h3>
+                            <CardList whoControlsThis="opponent" listName="In Play" updater={handleUpdate} cardObjects={opponentBoard.inPlay} />
+                        </div>
+
+                    </div>
                 </GameStateProvider>
-             </div>
         </div>   
     } </>;
 }
