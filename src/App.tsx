@@ -24,6 +24,7 @@ async function callServer(payload: StringMap) {
 export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, updater: Updater, listName: string, cardObject: StringMap }> = ({ whoControlsThis, updater, listName, cardObject }) => {
     const [validActions, updateValidActions] = useState(['NewGame']);
     const [validIds, updateValidIds] = useState(['none']);
+    const [playerBoard, updatePlayerBoard] = useState({ 'workeredThisTurn': true });
 
     // will need a sub-menu...
     function patrol(event: React.MouseEvent<HTMLElement>) {
@@ -75,6 +76,7 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
                     { cardObject.canPlay && possibleAction('PlayCard', 'Play', true) }
                     { cardObject.canAttack && possibleAction('Attack', 'Attack', true) }
                     { cardObject.canUseAbility && possibleAction('Ability', 'Use Ability', true) }
+                    { playerBoard && !playerBoard.workeredThisTurn && possibleAction('Worker', 'Worker', true) }
                 </>
             );
         }
@@ -82,11 +84,12 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
     }
 
     return (
-        <PhaseContext.Consumer>
-            { ({validActions, idsToResolve}) => (
+        <GameStateContext.Consumer>
+            { ({opponentBoard, playerBoard, phase}) => (
                 <>
-                    { updateValidActions(validActions) }
-                    { updateValidIds(idsToResolve) }
+                    { updateValidActions(phase.validActions) }
+                    { updateValidIds(phase.idsToResolve) }
+                    { updatePlayerBoard(playerBoard) }
                     <div className="cardOuterDiv">
                         <a href="#" className="card" key={cardObject.cardId} id={cardObject.cardId}>[{cardObject.name}]</a>
                         <div className="cardInnerDiv">
@@ -105,7 +108,7 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
                     </div>
                 </>
             )}
-        </PhaseContext.Consumer>
+        </GameStateContext.Consumer>
     );
 }
 
@@ -130,18 +133,23 @@ export const CardList: React.FunctionComponent<{ whoControlsThis: WhoControlsThi
     return (<div><h2>{listName}:</h2> { cards(cardObjects) }</div>);
 }
 
-const PhaseContext = React.createContext(
-    { 
+const GameStateContext = React.createContext({
+    opponentBoard: {},
+    playerBoard: {
+        'workeredThisTurn': false
+    },
+    phase: { 
         validActions: [],
         idsToResolve: []
-    });
+    }
+});
 
 export const CodexGame: React.FunctionComponent<{ payload: StringMap }> = ({ payload }) => {
     const [gameState, updateGameState] = useState();
     const [playerBoard, updatePlayerBoard] = useState();
     const [opponentBoard, updateOpponentBoard] = useState();
 
-    const PhaseProvider = PhaseContext.Provider;
+    const GameStateProvider = GameStateContext.Provider;
 
     useEffect(() => {
         handleUpdate(payload);
@@ -171,7 +179,12 @@ export const CodexGame: React.FunctionComponent<{ payload: StringMap }> = ({ pay
     return <> {
         <div>
             <div>
-                <PhaseProvider value={gameState.phaseStack.stack[gameState.phaseStack.stack.length - 1]}>
+                <GameStateProvider value= { 
+                    { 
+                      'opponentBoard': opponentBoard,
+                      'playerBoard': playerBoard,
+                      'phase': gameState.phaseStack.stack[gameState.phaseStack.stack.length - 1]
+                    }}>
                     <h1>Player {gameState.activePlayer}, Turn {playerBoard.turnCount}</h1>
                     <h1>Opponent Board</h1>
                     <h3>Gold: {opponentBoard.gold}, Workers: {opponentBoard.numWorkers}, 
@@ -181,7 +194,7 @@ export const CodexGame: React.FunctionComponent<{ payload: StringMap }> = ({ pay
                     <h3>Gold: {playerBoard.gold}, Workers: {playerBoard.numWorkers}</h3>
                     <CardList whoControlsThis="player" listName="Hand" updater={handleUpdate} cardObjects={playerBoard.hand} />
                     <CardList whoControlsThis="player" listName="In Play" updater={handleUpdate} cardObjects={playerBoard.inPlay} />
-                </PhaseProvider>
+                </GameStateProvider>
              </div>
         </div>   
     } </>;
