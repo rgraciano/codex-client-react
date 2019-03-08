@@ -24,7 +24,7 @@ async function callServer(payload: StringMap) {
 export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, updater: Updater, listName: string, cardObject: StringMap }> = ({ whoControlsThis, updater, listName, cardObject }) => {
     const [validActions, updateValidActions] = useState(['NewGame']);
     const [validIds, updateValidIds] = useState(['none']);
-    const [playerBoard, updatePlayerBoard] = useState({ 'workeredThisTurn': true });
+    const [playerBoard, updatePlayerBoard] = useState({ 'canWorker': true });
 
     // will need a sub-menu...
     function patrol(event: React.MouseEvent<HTMLElement>) {
@@ -76,7 +76,7 @@ export const Card: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, u
                     { cardObject.canPlay && possibleAction('PlayCard', 'Play', true) }
                     { cardObject.canAttack && possibleAction('Attack', 'Attack', true) }
                     { cardObject.canUseAbility && possibleAction('Ability', 'Use Ability', true) }
-                    { playerBoard && !playerBoard.workeredThisTurn && possibleAction('Worker', 'Worker', true) }
+                    { listName == 'Hand' && playerBoard && playerBoard.canWorker && possibleAction('Worker', 'Worker', true) }
                 </>
             );
         }
@@ -136,7 +136,7 @@ export const CardList: React.FunctionComponent<{ whoControlsThis: WhoControlsThi
 const GameStateContext = React.createContext({
     opponentBoard: {},
     playerBoard: {
-        'workeredThisTurn': false
+        'canWorker': false
     },
     phase: { 
         validActions: [],
