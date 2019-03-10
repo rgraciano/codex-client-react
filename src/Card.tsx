@@ -9,7 +9,7 @@ export const Card: FunctionComponent<{
 }> = ({ whoControlsThis, updater, listName, cardObject }) => {
     const [validActions, updateValidActions] = useState(['NewGame']);
     const [validIds, updateValidIds] = useState(['none']);
-    const [extraState, updateExtraState] = useState({ label: undefined });
+    const [extraState, updateExtraState] = useState({ label: '' });
     const [playerBoard, updatePlayerBoard] = useState({ canWorker: true });
 
     // will need a sub-menu...
@@ -17,12 +17,14 @@ export const Card: FunctionComponent<{
         event.preventDefault();
     }
 
-    let callApiAction = (actionName: string) => (e: React.MouseEvent<HTMLElement>) => {
+    let callApiAction = (actionName: string, extraInfo?: StringMap) => (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
 
         let payload: StringMap = {};
         payload.actionName = actionName;
         payload.cardId = cardObject.cardId;
+
+        if (extraInfo) Object.apply(payload, [extraInfo]);
 
         updater(payload);
     };
@@ -35,6 +37,16 @@ export const Card: FunctionComponent<{
         return validActions && validActions.findIndex(nm => nm === actionName) > -1;
     }
 
+    function printCardAction(actionName: string, actionTitle: string, extraInfo?: StringMap) {
+        return (
+            <li className="cardLI">
+                <a href="#" onClick={callApiAction(actionName, extraInfo)}>
+                    {actionTitle}
+                </a>
+            </li>
+        );
+    }
+
     /**
      * Lists this action if it's in the back-end supplied list of valid actions,
      * and if this card is in the back-end list of valid cards for this action.
@@ -42,7 +54,7 @@ export const Card: FunctionComponent<{
      * Some actions don't use the list of valid IDs - they use an attribute on the card instead -
      * so we allow those actions to skip the validIdCheck here.
      */
-    function possibleAction(actionName: string, actionTitle?: string, skipValidIdCheck = false) {
+    function possibleAction(actionName: string, actionTitle: string, skipValidIdCheck = false) {
         switch (actionName) {
             case 'PlayCard':
                 if (!cardObject.canPlay) return null;
@@ -51,16 +63,20 @@ export const Card: FunctionComponent<{
                 if (!cardObject.canAttack) return null;
                 break;
         }
-        return (
-            (skipValidIdCheck || isValidId(cardObject.cardId)) &&
-            isValidAction(actionName) && (
-                <li className="cardLI">
-                    <a href="#" onClick={callApiAction(actionName)}>
-                        {actionTitle ? actionTitle : extraState.label}
-                    </a>
-                </li>
-            )
-        );
+        return (skipValidIdCheck || isValidId(cardObject.cardId)) && isValidAction(actionName) && printCardAction(actionName, actionTitle);
+    }
+
+    function abilities() {
+        let abilities = cardObject.abilities;
+        let canUseAbilities = cardObject.canUseAbilities;
+
+        if (!abilities) return null;
+
+        for (let i = 0; i < abilities.length; i++) {
+            if (canUseAbilities[i]) {
+                printCardAction('Ability', abilities[i], { abilityName: abilities[i] });
+            }
+        }
     }
 
     function playerActions() {
@@ -69,7 +85,7 @@ export const Card: FunctionComponent<{
                 <>
                     {cardObject.canPlay && possibleAction('PlayCard', 'Play', true)}
                     {cardObject.canAttack && possibleAction('Attack', 'Attack', true)}
-                    {cardObject.canUseAbility && possibleAction('Ability', 'Use Ability', true)}
+                    {abilities()}
                     {listName == 'Hand' && playerBoard && playerBoard.canWorker && possibleAction('Worker', 'Worker', true)}
                 </>
             );
@@ -99,7 +115,7 @@ export const Card: FunctionComponent<{
                                 {possibleAction('UpkeepChoice', 'Trigger: Upkeep')}
                                 {possibleAction('ArrivesChoice', 'Trigger: Arrives')}
                                 {possibleAction('DestroyChoice', 'Trigger: Destroy')}
-                                {possibleAction('AbilityChoice')}
+                                {possibleAction('AbilityChoice', extraState.label)}
                             </ul>
                         </div>
                     </div>

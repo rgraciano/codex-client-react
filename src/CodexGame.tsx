@@ -41,7 +41,7 @@ export const GameStateContext = createContext({
     phase: {
         validActions: [],
         idsToResolve: [],
-        extraState: { label: undefined }
+        extraState: { label: '' }
     }
 });
 
