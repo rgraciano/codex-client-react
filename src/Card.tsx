@@ -24,7 +24,7 @@ export const Card: FunctionComponent<{
         payload.actionName = actionName;
         payload.cardId = cardObject.cardId;
 
-        if (extraInfo) Object.apply(payload, [extraInfo]);
+        if (extraInfo) Object.assign(payload, extraInfo);
 
         updater(payload);
     };
@@ -70,13 +70,17 @@ export const Card: FunctionComponent<{
         let abilities = cardObject.abilities;
         let canUseAbilities = cardObject.canUseAbilities;
 
-        if (!abilities) return null;
+        if (!abilities || !isValidAction('Ability')) return null;
+
+        let printingAbilities = [];
 
         for (let i = 0; i < abilities.length; i++) {
+            printingAbilities.push(printCardAction('Ability', abilities[i], { abilityName: abilities[i] }));
             if (canUseAbilities[i]) {
-                printCardAction('Ability', abilities[i], { abilityName: abilities[i] });
             }
         }
+
+        return printingAbilities;
     }
 
     function playerActions() {
@@ -85,7 +89,7 @@ export const Card: FunctionComponent<{
                 <>
                     {cardObject.canPlay && possibleAction('PlayCard', 'Play', true)}
                     {cardObject.canAttack && possibleAction('Attack', 'Attack', true)}
-                    {abilities()}
+                    {listName != 'Hand' && abilities()}
                     {listName == 'Hand' && playerBoard && playerBoard.canWorker && possibleAction('Worker', 'Worker', true)}
                 </>
             );
@@ -108,14 +112,14 @@ export const Card: FunctionComponent<{
                             <ul className="cardMenu">
                                 {playerActions()}
 
-                                {possibleAction('AttackCardsChoice', 'Choose Defender')}
+                                {possibleAction('AttackCardsChoice', 'Choose: Defender')}
                                 {possibleAction('AttacksChoice', 'Trigger: Attacks')}
                                 {possibleAction('DiesOrLeavesChoice', 'Trigger: Dies')}
                                 {possibleAction('DiesOrLeavesChoice', 'Trigger: Leaves')}
                                 {possibleAction('UpkeepChoice', 'Trigger: Upkeep')}
                                 {possibleAction('ArrivesChoice', 'Trigger: Arrives')}
                                 {possibleAction('DestroyChoice', 'Trigger: Destroy')}
-                                {possibleAction('AbilityChoice', extraState.label)}
+                                {possibleAction('AbilityChoice', 'Choose: ' + extraState.label)}
                             </ul>
                         </div>
                     </div>
