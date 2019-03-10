@@ -9,6 +9,7 @@ export const Card: FunctionComponent<{
 }> = ({ whoControlsThis, updater, listName, cardObject }) => {
     const [validActions, updateValidActions] = useState(['NewGame']);
     const [validIds, updateValidIds] = useState(['none']);
+    const [extraState, updateExtraState] = useState({ label: undefined });
     const [playerBoard, updatePlayerBoard] = useState({ canWorker: true });
 
     // will need a sub-menu...
@@ -41,7 +42,7 @@ export const Card: FunctionComponent<{
      * Some actions don't use the list of valid IDs - they use an attribute on the card instead -
      * so we allow those actions to skip the validIdCheck here.
      */
-    function possibleAction(actionName: string, actionTitle: string, skipValidIdCheck = false) {
+    function possibleAction(actionName: string, actionTitle?: string, skipValidIdCheck = false) {
         switch (actionName) {
             case 'PlayCard':
                 if (!cardObject.canPlay) return null;
@@ -55,7 +56,7 @@ export const Card: FunctionComponent<{
             isValidAction(actionName) && (
                 <li className="cardLI">
                     <a href="#" onClick={callApiAction(actionName)}>
-                        {actionTitle}
+                        {actionTitle ? actionTitle : extraState.label}
                     </a>
                 </li>
             )
@@ -81,6 +82,7 @@ export const Card: FunctionComponent<{
                 <>
                     {updateValidActions(phase.validActions)}
                     {updateValidIds(phase.idsToResolve)}
+                    {updateExtraState(phase.extraState)}
                     {updatePlayerBoard(playerBoard)}
                     <div className="cardOuterDiv">
                         <a href="#" className="card" key={cardObject.cardId} id={cardObject.cardId}>
@@ -91,12 +93,13 @@ export const Card: FunctionComponent<{
                                 {playerActions()}
 
                                 {possibleAction('AttackCardsChoice', 'Choose Defender')}
-                                {possibleAction('AttacksChoice', 'Resolve Trigger: Attacks')}
-                                {possibleAction('DiesOrLeavesChoice', 'Resolve Trigger: Dies')}
-                                {possibleAction('DiesOrLeavesChoice', 'Resolve Trigger: Leaves')}
-                                {possibleAction('UpkeepChoice', 'Resolve Trigger: Upkeep')}
-                                {possibleAction('ArrivesChoice', 'Resolve Trigger: Arrives')}
-                                {possibleAction('DestroyChoice', 'Resolve Trigger: Destroy')}
+                                {possibleAction('AttacksChoice', 'Trigger: Attacks')}
+                                {possibleAction('DiesOrLeavesChoice', 'Trigger: Dies')}
+                                {possibleAction('DiesOrLeavesChoice', 'Trigger: Leaves')}
+                                {possibleAction('UpkeepChoice', 'Trigger: Upkeep')}
+                                {possibleAction('ArrivesChoice', 'Trigger: Arrives')}
+                                {possibleAction('DestroyChoice', 'Trigger: Destroy')}
+                                {possibleAction('AbilityChoice')}
                             </ul>
                         </div>
                     </div>
