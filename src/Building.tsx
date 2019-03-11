@@ -1,5 +1,6 @@
 import React, { useState, FunctionComponent } from 'react';
 import { WhoControlsThis, Updater, ObjectMap, GameStateContext } from './CodexGame';
+import { PossibleAction } from './PossibleAction';
 
 export type BuildingObj = {
     _health: number;
@@ -13,6 +14,7 @@ export const Building: FunctionComponent<{
     updater: Updater;
 }> = ({ board, buildingProp, whoControlsThis, updater }) => {
     const [building, updateBuilding] = useState();
+    const [extraState, updateExtraState] = useState();
 
     function buildingExists() {
         return board.hasOwnProperty(buildingProp) && board[buildingProp];
@@ -29,11 +31,36 @@ export const Building: FunctionComponent<{
             <>
                 <h3>
                     {building.name}: {building._health}HP {building.constructionInProgress ? '[constructing]' : ''}{' '}
-                    {building.destroyed ? '[destroyed]' : ''} <ul className="cardMenu" />
+                    {building.destroyed ? '[destroyed]' : ''}{' '}
+                    <ul className="cardMenu">
+                        <PossibleAction
+                            updater={updater}
+                            actionName="AbilityChoice"
+                            actionTitle={'Choose: ' + extraState.label}
+                            cardOrBuildingId={building.name}
+                            validateCardOrBuildingId={true}
+                        />
+                        <PossibleAction
+                            updater={updater}
+                            actionName="AttackCardsOrBuildingsChoice"
+                            actionTitle="Choose: Defender"
+                            cardOrBuildingId={building.name}
+                            validateCardOrBuildingId={true}
+                        />
+                    </ul>
                 </h3>
             </>
         );
     }
 
-    return <GameStateContext.Consumer>{({ phase }) => <> {outputBuilding()} </>}</GameStateContext.Consumer>;
+    return (
+        <GameStateContext.Consumer>
+            {({ phase }) => (
+                <>
+                    {' '}
+                    {updateExtraState(phase.extraState)} {outputBuilding()}{' '}
+                </>
+            )}
+        </GameStateContext.Consumer>
+    );
 };
