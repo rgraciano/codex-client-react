@@ -33,16 +33,18 @@ export const Patroller: React.FunctionComponent<{ whoControlsThis: WhoControlsTh
     );
 }*/
 
+export class Phase {
+    validActions: string[] = [];
+    idsToResolve: string[] = [];
+    extraState = { label: '' };
+}
+
 export const GameStateContext = createContext({
     opponentBoard: {},
     playerBoard: {
         canWorker: false
     },
-    phase: {
-        validActions: [],
-        idsToResolve: [],
-        extraState: { label: '' }
-    }
+    phase: new Phase()
 });
 
 export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }) => {
