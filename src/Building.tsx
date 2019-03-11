@@ -1,18 +1,39 @@
-import React, { FunctionComponent } from 'react';
-import { WhoControlsThis, Updater, StringMap, GameStateContext } from './CodexGame';
-import { Card } from './Card';
+import React, { useState, FunctionComponent } from 'react';
+import { WhoControlsThis, Updater, ObjectMap, GameStateContext } from './CodexGame';
+
+export type BuildingObj = {
+    _health: number;
+    name: string;
+};
 
 export const Building: FunctionComponent<{
-    buildingName: string;
-    board: StringMap;
+    buildingProp: string;
+    board: ObjectMap;
     whoControlsThis: WhoControlsThis;
     updater: Updater;
-}> = ({ buildingName, board, whoControlsThis, updater }) => {
-    function buildingExists(buildingName: string) {
-        return board.hasOwnProperty(buildingName) && board.buildingName;
+}> = ({ board, buildingProp, whoControlsThis, updater }) => {
+    const [building, updateBuilding] = useState();
+
+    function buildingExists() {
+        return board.hasOwnProperty(buildingProp) && board[buildingProp];
     }
 
-    function outputBuilding() {}
+    function outputBuilding() {
+        if (!buildingExists()) return null;
 
-    return <GameStateContext.Consumer>{({ phase }) => <>{buildingExists(buildingName) && outputBuilding()}</>}</GameStateContext.Consumer>;
+        updateBuilding(board[buildingProp] as BuildingObj);
+
+        if (!building) return null;
+
+        return (
+            <>
+                <h3>
+                    {building.name}: {building._health}HP {building.constructionInProgress ? '[constructing]' : ''}{' '}
+                    {building.destroyed ? '[destroyed]' : ''} <ul className="cardMenu" />
+                </h3>
+            </>
+        );
+    }
+
+    return <GameStateContext.Consumer>{({ phase }) => <> {outputBuilding()} </>}</GameStateContext.Consumer>;
 };

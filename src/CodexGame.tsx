@@ -1,10 +1,14 @@
 import React, { createContext, useState, useEffect, FunctionComponent } from 'react';
 import { CardList } from './CardList';
+import { Building } from './Building';
 
 import './CodexGame.css';
 
 export class StringMap {
     [s: string]: string;
+}
+export class ObjectMap {
+    [s: string]: object;
 }
 
 async function callServer(payload: StringMap) {
@@ -100,6 +104,10 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                                 <h3>
                                     Gold: {playerBoard.gold}, Workers: {playerBoard.numWorkers}
                                 </h3>
+
+                                <div className="playerBuildings">
+                                    <Building buildingProp="base" board={playerBoard} whoControlsThis="player" updater={handleUpdate} />
+                                </div>
 
                                 <div className="patrollersAndHand">
                                     <div className="playerHand">
