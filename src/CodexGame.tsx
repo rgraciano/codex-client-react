@@ -98,6 +98,7 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                                 <h3>
                                     Gold: {playerBoard.gold}, Workers: {playerBoard.numWorkers}
                                 </h3>
+
                                 <div className="patrollersAndHand">
                                     <div className="playerHand">
                                         <CardList
