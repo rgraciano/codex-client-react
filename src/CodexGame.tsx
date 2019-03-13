@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, FunctionComponent } from 'react';
 import { CardList } from './CardList';
-import { Building } from './Building';
+import { BuildingList } from './BuildingList';
 
 import './CodexGame.css';
 
@@ -111,9 +111,7 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                                         Gold: {playerBoard.gold}, Workers: {playerBoard.numWorkers}
                                     </h3>
 
-                                    <div className="playerBuildings">
-                                        <Building buildingProp="base" board={playerBoard} whoControlsThis="player" />
-                                    </div>
+                                    <BuildingList board={playerBoard} whoControlsThis="player" />
 
                                     <div className="patrollersAndHand">
                                         <div className="playerHand">
@@ -136,6 +134,9 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                                         Gold: {opponentBoard.gold}, Workers: {opponentBoard.numWorkers}, Hand: {opponentBoard.hand.length},
                                         Discard: {opponentBoard.discard.length}
                                     </h3>
+
+                                    <BuildingList board={opponentBoard} whoControlsThis="opponent" />
+
                                     <CardList whoControlsThis="opponent" listName="In Play" cardObjects={opponentBoard.inPlay} />
                                 </div>
                             </div>

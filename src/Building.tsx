@@ -28,32 +28,35 @@ export const Building: FunctionComponent<{
 
         return (
             <>
-                <h3>
-                    {building.name}: {building._health}HP {building.constructionInProgress ? '[constructing]' : ''}{' '}
-                    {building.destroyed ? '[destroyed]' : ''} {building.disabled ? '[disabled]' : ''}{' '}
-                    <ul className="cardMenu">
-                        {building.canBuild && (
-                            <PossibleAction
-                                actionName="Build"
-                                actionTitle="Build"
-                                cardOrBuildingId={building.name}
-                                validateCardOrBuildingId={false}
-                            />
-                        )}
-                        <PossibleAction
-                            actionName="AbilityChoice"
-                            actionTitle={'Choose: ' + extraState.label}
-                            cardOrBuildingId={building.name}
-                            validateCardOrBuildingId={true}
-                        />
-                        <PossibleAction
-                            actionName="AttackCardsOrBuildingsChoice"
-                            actionTitle="Choose: Defender"
-                            cardOrBuildingId={building.name}
-                            validateCardOrBuildingId={true}
-                        />
-                    </ul>
-                </h3>
+                {building.canBuild ||
+                    (building.name == 'Base' && (
+                        <h3>
+                            {building.name}: {building._health}HP {building.constructionInProgress ? '[constructing]' : ''}{' '}
+                            {building.destroyed ? '[destroyed]' : ''} {building.disabled ? '[disabled]' : ''}{' '}
+                            <ul className="cardMenu">
+                                {building.canBuild && (
+                                    <PossibleAction
+                                        actionName="Build"
+                                        actionTitle="Build"
+                                        cardOrBuildingId={building.name}
+                                        validateCardOrBuildingId={false}
+                                    />
+                                )}
+                                <PossibleAction
+                                    actionName="AbilityChoice"
+                                    actionTitle={'Choose: ' + extraState.label}
+                                    cardOrBuildingId={building.name}
+                                    validateCardOrBuildingId={true}
+                                />
+                                <PossibleAction
+                                    actionName="AttackCardsOrBuildingsChoice"
+                                    actionTitle="Choose: Defender"
+                                    cardOrBuildingId={building.name}
+                                    validateCardOrBuildingId={true}
+                                />
+                            </ul>
+                        </h3>
+                    ))}
             </>
         );
     }
