@@ -19,6 +19,31 @@ export const Building: FunctionComponent<{
         return board.hasOwnProperty(buildingProp) && board[buildingProp];
     }
 
+    function possibleActionAddOn(addOnStr: string) {
+        return (
+            <PossibleAction
+                actionName="Build"
+                actionTitle={'Build ' + addOnStr}
+                cardOrBuildingId={building.name}
+                validateCardOrBuildingId={false}
+                extraInfo={{ addOnType: addOnStr }}
+            />
+        );
+    }
+
+    function addOnBuildActions() {
+        if (!building.canBuild || !(building.name == 'AddOn')) return null;
+
+        let addOnBuilds = [];
+
+        if (building.canBuildTower) addOnBuilds.push(possibleActionAddOn('Tower'));
+        if (building.canBuildSurplus) addOnBuilds.push(possibleActionAddOn('Surplus'));
+        if (building.canBuildHeroesHall) addOnBuilds.push(possibleActionAddOn('Heroes Hall'));
+        if (building.canBuildTechLab) addOnBuilds.push(possibleActionAddOn('Tech Lab'));
+
+        return addOnBuilds;
+    }
+
     function outputBuilding() {
         if (!buildingExists()) return null;
 
@@ -28,35 +53,38 @@ export const Building: FunctionComponent<{
 
         return (
             <>
-                {building.canBuild ||
-                    (building.name == 'Base' && (
-                        <h3>
-                            {building.name}: {building._health}HP {building.constructionInProgress ? '[constructing]' : ''}{' '}
-                            {building.destroyed ? '[destroyed]' : ''} {building.disabled ? '[disabled]' : ''}{' '}
-                            <ul className="cardMenu">
-                                {building.canBuild && (
-                                    <PossibleAction
-                                        actionName="Build"
-                                        actionTitle="Build"
-                                        cardOrBuildingId={building.name}
-                                        validateCardOrBuildingId={false}
-                                    />
-                                )}
+                {(building.canBuild || building.name == 'Base') && (
+                    <div className="buidingRow">
+                        {building.name}: {building.built ? '[' + building._health + ' HP]' : ''}{' '}
+                        {building.constructionInProgress ? '[constructing]' : ''} {building.destroyed ? '[destroyed]' : ''}{' '}
+                        {building.disabled ? '[disabled]' : ''}{' '}
+                        <ul className="cardMenu">
+                            {building.canBuild && building.name != 'AddOn' && (
                                 <PossibleAction
-                                    actionName="AbilityChoice"
-                                    actionTitle={'Choose: ' + extraState.label}
+                                    actionName="Build"
+                                    actionTitle="Build"
                                     cardOrBuildingId={building.name}
-                                    validateCardOrBuildingId={true}
+                                    validateCardOrBuildingId={false}
                                 />
-                                <PossibleAction
-                                    actionName="AttackCardsOrBuildingsChoice"
-                                    actionTitle="Choose: Defender"
-                                    cardOrBuildingId={building.name}
-                                    validateCardOrBuildingId={true}
-                                />
-                            </ul>
-                        </h3>
-                    ))}
+                            )}
+
+                            {addOnBuildActions()}
+
+                            <PossibleAction
+                                actionName="AbilityChoice"
+                                actionTitle={'Choose: ' + extraState.label}
+                                cardOrBuildingId={building.name}
+                                validateCardOrBuildingId={true}
+                            />
+                            <PossibleAction
+                                actionName="AttackCardsOrBuildingsChoice"
+                                actionTitle="Choose: Defender"
+                                cardOrBuildingId={building.name}
+                                validateCardOrBuildingId={true}
+                            />
+                        </ul>
+                    </div>
+                )}
             </>
         );
     }
