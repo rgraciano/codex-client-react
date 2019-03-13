@@ -33,6 +33,7 @@ h2 {
 
 .cardOuterDiv {
     padding-top: 15px;
+    transition: transform 500ms ease-in-out;
 }
 
 .cardInnerDiv {
@@ -47,4 +48,22 @@ h2 {
 .cardLI {
     display: inline;
     padding-left: 10px;
+}
+
+.cardAnimation-enter {
+    opacity: 0.01;
+}
+
+.cardAnimation-enter.cardAnimation-enter-active {
+    opacity: 1;
+    transition: opacity 900ms ease-in;
+}
+
+.cardAnimation-exit {
+    opacity: 1;
+}
+
+.cardAnimation-exit.cardAnimation-exit-active {
+    opacity: 0.01;
+    transition: opacity 900ms ease-in;
 }
