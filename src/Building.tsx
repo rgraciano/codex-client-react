@@ -1,5 +1,5 @@
 import React, { useState, FunctionComponent } from 'react';
-import { WhoControlsThis, Updater, ObjectMap, GameStateContext } from './CodexGame';
+import { WhoControlsThis, ObjectMap, GameStateContext } from './CodexGame';
 import { PossibleAction } from './PossibleAction';
 
 export type BuildingObj = {
@@ -11,8 +11,7 @@ export const Building: FunctionComponent<{
     buildingProp: string;
     board: ObjectMap;
     whoControlsThis: WhoControlsThis;
-    updater: Updater;
-}> = ({ board, buildingProp, whoControlsThis, updater }) => {
+}> = ({ board, buildingProp, whoControlsThis }) => {
     const [building, updateBuilding] = useState();
     const [extraState, updateExtraState] = useState();
 
@@ -31,17 +30,23 @@ export const Building: FunctionComponent<{
             <>
                 <h3>
                     {building.name}: {building._health}HP {building.constructionInProgress ? '[constructing]' : ''}{' '}
-                    {building.destroyed ? '[destroyed]' : ''}{' '}
+                    {building.destroyed ? '[destroyed]' : ''} {building.disabled ? '[disabled]' : ''}{' '}
                     <ul className="cardMenu">
+                        {building.canBuild && (
+                            <PossibleAction
+                                actionName="Build"
+                                actionTitle="Build"
+                                cardOrBuildingId={building.name}
+                                validateCardOrBuildingId={false}
+                            />
+                        )}
                         <PossibleAction
-                            updater={updater}
                             actionName="AbilityChoice"
                             actionTitle={'Choose: ' + extraState.label}
                             cardOrBuildingId={building.name}
                             validateCardOrBuildingId={true}
                         />
                         <PossibleAction
-                            updater={updater}
                             actionName="AttackCardsOrBuildingsChoice"
                             actionTitle="Choose: Defender"
                             cardOrBuildingId={building.name}

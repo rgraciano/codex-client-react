@@ -1,15 +1,14 @@
 import React, { useState, FunctionComponent } from 'react';
-import { Updater, StringMap, GameStateContext } from './CodexGame';
+import { StringMap, GameStateContext } from './CodexGame';
 import { Action } from './Action';
 
 export const PossibleAction: FunctionComponent<{
-    updater: Updater;
     actionName: string;
     actionTitle: string;
     cardOrBuildingId: string;
     validateCardOrBuildingId: boolean;
     extraInfo?: StringMap;
-}> = ({ updater, actionName, actionTitle, cardOrBuildingId, validateCardOrBuildingId, extraInfo }) => {
+}> = ({ actionName, actionTitle, cardOrBuildingId, validateCardOrBuildingId, extraInfo }) => {
     const [idsToResolve, updateIdsToResolve] = useState(['a']);
     const [validActions, updateValidActions] = useState(['a']);
 
@@ -25,13 +24,7 @@ export const PossibleAction: FunctionComponent<{
 
         return (
             isValidAction(actionName) && (
-                <Action
-                    updater={updater}
-                    actionName={actionName}
-                    actionTitle={actionTitle}
-                    cardOrBuildingId={cardOrBuildingId}
-                    extraInfo={extraInfo}
-                />
+                <Action actionName={actionName} actionTitle={actionTitle} cardOrBuildingId={cardOrBuildingId} extraInfo={extraInfo} />
             )
         );
     }

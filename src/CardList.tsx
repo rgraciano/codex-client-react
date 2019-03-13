@@ -1,16 +1,15 @@
 import React, { FunctionComponent } from 'react';
-import { WhoControlsThis, Updater, StringMap } from './CodexGame';
+import { WhoControlsThis, StringMap } from './CodexGame';
 import { Card } from './Card';
 
 export const CardList: FunctionComponent<{
     whoControlsThis: WhoControlsThis;
-    updater: Updater;
     listName: string;
     cardObjects: StringMap[];
-}> = ({ whoControlsThis, updater, listName, cardObjects }) => {
+}> = ({ whoControlsThis, listName, cardObjects }) => {
     function cards(cardObjects: StringMap[]) {
         return cardObjects.map(cardObj => (
-            <Card key={cardObj.cardId} whoControlsThis={whoControlsThis} updater={updater} listName={listName} cardObject={cardObj} />
+            <Card key={cardObj.cardId} whoControlsThis={whoControlsThis} listName={listName} cardObject={cardObj} />
         ));
     }
 
