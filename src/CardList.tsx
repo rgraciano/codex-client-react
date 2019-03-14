@@ -10,7 +10,7 @@ export const CardList: FunctionComponent<{
 }> = ({ whoControlsThis, listName, cardObjects }) => {
     function cards(cardObjects: StringMap[]) {
         let objs = cardObjects.map(cardObj => (
-            <CSSTransition key={cardObj.cardId} classNames="cardAnimation" timeout={{ enter: 1000, exit: 1000 }}>
+            <CSSTransition key={cardObj.cardId} classNames="cardAnimation" timeout={{ enter: 300, exit: 300 }}>
                 <Card key={cardObj.cardId + 'Card'} whoControlsThis={whoControlsThis} listName={listName} cardObject={cardObj} />
             </CSSTransition>
         ));
