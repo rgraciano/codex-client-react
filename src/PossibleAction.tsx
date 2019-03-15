@@ -5,10 +5,11 @@ import { Action } from './Action';
 export const PossibleAction: FunctionComponent<{
     actionName: string;
     actionTitle: string;
-    cardOrBuildingId: string;
     validateCardOrBuildingId: boolean;
+    cardId?: string;
+    buildingId?: string;
     extraInfo?: StringMap;
-}> = ({ actionName, actionTitle, cardOrBuildingId, validateCardOrBuildingId, extraInfo }) => {
+}> = ({ actionName, actionTitle, cardId, buildingId, validateCardOrBuildingId, extraInfo }) => {
     const [idsToResolve, updateIdsToResolve] = useState(['a']);
     const [validActions, updateValidActions] = useState(['a']);
 
@@ -20,11 +21,21 @@ export const PossibleAction: FunctionComponent<{
      * so we allow those actions to skip the validIdCheck here.
      */
     function possibleAction() {
-        if (validateCardOrBuildingId && !isValidId(cardOrBuildingId)) return null;
+        let idValue: string, idName: string;
+
+        if (cardId) {
+            idValue = cardId;
+            idName = 'cardId';
+        } else if (buildingId) {
+            idValue = buildingId;
+            idName = 'buildingId';
+        } else return null;
+
+        if (validateCardOrBuildingId && !isValidId(idValue)) return null;
 
         return (
             isValidAction(actionName) && (
-                <Action actionName={actionName} actionTitle={actionTitle} cardOrBuildingId={cardOrBuildingId} extraInfo={extraInfo} />
+                <Action actionName={actionName} actionTitle={actionTitle} idValue={idValue} idName={idName} extraInfo={extraInfo} />
             )
         );
     }

@@ -24,7 +24,7 @@ export const Building: FunctionComponent<{
             <PossibleAction
                 actionName="Build"
                 actionTitle={'Build ' + addOnStr}
-                cardOrBuildingId={building.name}
+                buildingId={building.name}
                 validateCardOrBuildingId={false}
                 extraInfo={{ addOnType: addOnStr }}
             />
@@ -53,17 +53,17 @@ export const Building: FunctionComponent<{
 
         return (
             <>
-                {(building.canBuild || building.name == 'Base') && (
+                {(building.canBuild || building.built) && (
                     <div className="buidingRow">
-                        {building.name}: {building.built ? '[' + building._health + ' HP]' : ''}{' '}
-                        {building.constructionInProgress ? '[constructing]' : ''} {building.destroyed ? '[destroyed]' : ''}{' '}
-                        {building.disabled ? '[disabled]' : ''}{' '}
+                        {building.name == 'AddOn' && building.addOnType ? building.addOnType : building.name}:{' '}
+                        {building.built ? '[' + building._health + ' HP]' : ''} {building.constructionInProgress ? '[constructing]' : ''}{' '}
+                        {building.destroyed ? '[destroyed]' : ''} {building.disabled ? '[disabled]' : ''}{' '}
                         <ul className="cardMenu">
                             {building.canBuild && building.name != 'AddOn' && (
                                 <PossibleAction
                                     actionName="Build"
                                     actionTitle="Build"
-                                    cardOrBuildingId={building.name}
+                                    buildingId={building.name}
                                     validateCardOrBuildingId={false}
                                 />
                             )}
@@ -73,13 +73,13 @@ export const Building: FunctionComponent<{
                             <PossibleAction
                                 actionName="AbilityChoice"
                                 actionTitle={'Choose: ' + extraState.label}
-                                cardOrBuildingId={building.name}
+                                buildingId={building.name}
                                 validateCardOrBuildingId={true}
                             />
                             <PossibleAction
                                 actionName="AttackCardsOrBuildingsChoice"
                                 actionTitle="Choose: Defender"
-                                cardOrBuildingId={building.name}
+                                buildingId={building.name}
                                 validateCardOrBuildingId={true}
                             />
                         </ul>

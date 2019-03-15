@@ -4,17 +4,22 @@ import { StringMap, GameStateContext, Phase, UpdateContext } from './CodexGame';
 export const Action: FunctionComponent<{
     actionName: string;
     actionTitle: string;
-    cardOrBuildingId: string;
+    idValue: string;
+    idName: string;
     extraInfo?: StringMap;
-}> = ({ actionName, actionTitle, cardOrBuildingId, extraInfo }) => {
-    let callApiAction = (updater: (payload: StringMap) => void, actionName: string, cardId: string, extraInfo?: StringMap) => (
-        e: React.MouseEvent<HTMLElement>
-    ) => {
+}> = ({ actionName, actionTitle, idValue, idName, extraInfo }) => {
+    let callApiAction = (
+        updater: (payload: StringMap) => void,
+        actionName: string,
+        idValue: string,
+        idName: string,
+        extraInfo?: StringMap
+    ) => (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
 
         let payload: StringMap = {};
         payload.actionName = actionName;
-        payload.cardId = cardId;
+        payload[idName] = idValue;
 
         if (extraInfo) Object.assign(payload, extraInfo);
 
@@ -26,7 +31,7 @@ export const Action: FunctionComponent<{
             {({ handleUpdate }) => (
                 <>
                     <li className="cardLI">
-                        <a href="#" onClick={callApiAction(handleUpdate, actionName, cardOrBuildingId, extraInfo)}>
+                        <a href="#" onClick={callApiAction(handleUpdate, actionName, idValue, idName, extraInfo)}>
                             {actionTitle}
                         </a>
                     </li>

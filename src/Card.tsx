@@ -25,7 +25,7 @@ export const Card: FunctionComponent<{
                     <PossibleAction
                         actionName="Ability"
                         actionTitle={abilities[i]}
-                        cardOrBuildingId={cardObject.cardId}
+                        cardId={cardObject.cardId}
                         validateCardOrBuildingId={false}
                         extraInfo={{ abilityName: abilities[i] }}
                     />
@@ -43,7 +43,7 @@ export const Card: FunctionComponent<{
                         <PossibleAction
                             actionName="PlayCard"
                             actionTitle="Play"
-                            cardOrBuildingId={cardObject.cardId}
+                            cardId={cardObject.cardId}
                             validateCardOrBuildingId={false}
                         />
                     )}
@@ -51,7 +51,7 @@ export const Card: FunctionComponent<{
                         <PossibleAction
                             actionName="Attack"
                             actionTitle="Attack"
-                            cardOrBuildingId={cardObject.cardId}
+                            cardId={cardObject.cardId}
                             validateCardOrBuildingId={false}
                         />
                     )}
@@ -60,7 +60,7 @@ export const Card: FunctionComponent<{
                         <PossibleAction
                             actionName="Worker"
                             actionTitle="Worker"
-                            cardOrBuildingId={cardObject.cardId}
+                            cardId={cardObject.cardId}
                             validateCardOrBuildingId={false}
                         />
                     )}
@@ -87,49 +87,49 @@ export const Card: FunctionComponent<{
                                 <PossibleAction
                                     actionName="AttackCardsChoice"
                                     actionTitle="Choose: Defender"
-                                    cardOrBuildingId={cardObject.cardId}
+                                    cardId={cardObject.cardId}
                                     validateCardOrBuildingId={true}
                                 />
 
                                 <PossibleAction
                                     actionName="AttacksChoice"
                                     actionTitle="Trigger: Attacks"
-                                    cardOrBuildingId={cardObject.cardId}
+                                    cardId={cardObject.cardId}
                                     validateCardOrBuildingId={true}
                                 />
 
                                 <PossibleAction
                                     actionName="DiesOrLeavesChoice"
                                     actionTitle="Trigger: Dies/Leaves"
-                                    cardOrBuildingId={cardObject.cardId}
+                                    cardId={cardObject.cardId}
                                     validateCardOrBuildingId={true}
                                 />
 
                                 <PossibleAction
                                     actionName="UpkeepChoice"
                                     actionTitle="Trigger: Upkeep"
-                                    cardOrBuildingId={cardObject.cardId}
+                                    cardId={cardObject.cardId}
                                     validateCardOrBuildingId={true}
                                 />
 
                                 <PossibleAction
                                     actionName="ArrivesChoice"
                                     actionTitle="Trigger: Arrives"
-                                    cardOrBuildingId={cardObject.cardId}
+                                    cardId={cardObject.cardId}
                                     validateCardOrBuildingId={true}
                                 />
 
                                 <PossibleAction
                                     actionName="DestroyChoice"
                                     actionTitle="Trigger: Destroy"
-                                    cardOrBuildingId={cardObject.cardId}
+                                    cardId={cardObject.cardId}
                                     validateCardOrBuildingId={true}
                                 />
 
                                 <PossibleAction
                                     actionName="AbilityChoice"
                                     actionTitle={'Choose: ' + extraState.label}
-                                    cardOrBuildingId={cardObject.cardId}
+                                    cardId={cardObject.cardId}
                                     validateCardOrBuildingId={true}
                                 />
                             </ul>
