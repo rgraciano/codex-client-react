@@ -31,17 +31,23 @@ export const Building: FunctionComponent<{
         );
     }
 
-    function addOnBuildActions() {
-        if (!building.canBuild || !(building.name == 'AddOn')) return null;
+    function addOnActions() {
+        if (building.name != 'AddOn') return null;
 
-        let addOnBuilds = [];
+        let actions = [];
 
-        if (building.canBuildTower) addOnBuilds.push(possibleActionAddOn('Tower'));
-        if (building.canBuildSurplus) addOnBuilds.push(possibleActionAddOn('Surplus'));
-        if (building.canBuildHeroesHall) addOnBuilds.push(possibleActionAddOn('Heroes Hall'));
-        if (building.canBuildTechLab) addOnBuilds.push(possibleActionAddOn('Tech Lab'));
+        if (building.canBuild) {
+            if (building.canBuildTower) actions.push(possibleActionAddOn('Tower'));
+            if (building.canBuildSurplus) actions.push(possibleActionAddOn('Surplus'));
+            if (building.canBuildHeroesHall) actions.push(possibleActionAddOn('Heroes Hall'));
+            if (building.canBuildTechLab) actions.push(possibleActionAddOn('Tech Lab'));
+        }
 
-        return addOnBuilds;
+        if (building.canReveal) {
+            actions.push(<PossibleAction actionName="Reveal" actionTitle="Reveal Stealth/Invisible" validateCardOrBuildingId={false} />);
+        }
+
+        return actions;
     }
 
     function outputBuilding() {
@@ -68,7 +74,7 @@ export const Building: FunctionComponent<{
                                 />
                             )}
 
-                            {addOnBuildActions()}
+                            {addOnActions()}
 
                             <PossibleAction
                                 actionName="AbilityChoice"

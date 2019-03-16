@@ -132,6 +132,13 @@ export const Card: FunctionComponent<{
                                     cardId={cardObject.cardId}
                                     validateCardOrBuildingId={true}
                                 />
+
+                                <PossibleAction
+                                    actionName="TowerRevealChoice"
+                                    actionTitle={'Choose: Reveal'}
+                                    cardId={cardObject.cardId}
+                                    validateCardOrBuildingId={true}
+                                />
                             </ul>
                         </div>
                     </div>
