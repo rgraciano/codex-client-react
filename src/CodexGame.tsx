@@ -130,7 +130,7 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                                         <div className="playerPlaying">
                                             <CardList
                                                 whoControlsThis="player"
-                                                listName="Playing..."
+                                                listName="Playing"
                                                 cardObjects={playerBoard.playStagingArea}
                                             />
                                         </div>

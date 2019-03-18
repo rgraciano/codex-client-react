@@ -11,9 +11,9 @@ export const Card: FunctionComponent<{
     const [extraState, updateExtraState] = useState({ label: '' });
     const [playerBoard, updatePlayerBoard] = useState({ canWorker: true });
 
-    function abilities() {
-        let abilities = cardObject.abilities;
-        let canUseAbilities = cardObject.canUseAbilities;
+    function abilities(staging: boolean = false) {
+        let abilities = staging ? cardObject.stagingAbilities : cardObject.abilities;
+        let canUseAbilities = staging ? cardObject.canUseStagingAbilities : cardObject.canUseAbilities;
 
         if (!abilities) return null;
 
@@ -23,7 +23,7 @@ export const Card: FunctionComponent<{
             if (canUseAbilities[i])
                 printingAbilities.push(
                     <PossibleAction
-                        actionName="Ability"
+                        actionName={staging ? 'StagingAbility' : 'Ability'}
                         actionTitle={abilities[i]}
                         cardId={cardObject.cardId}
                         validateCardOrBuildingId={false}
@@ -56,6 +56,7 @@ export const Card: FunctionComponent<{
                         />
                     )}
                     {listName != 'Hand' && abilities()}
+                    {listName == 'Playing' && abilities(true)}
                     {listName == 'Hand' && playerBoard && playerBoard.canWorker && (
                         <PossibleAction
                             actionName="Worker"
