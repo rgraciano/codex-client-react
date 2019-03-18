@@ -126,6 +126,15 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                                     <div className="playerInPlay">
                                         <CardList whoControlsThis="player" listName="In Play" cardObjects={playerBoard.inPlay} />
                                     </div>
+                                    {playerBoard.playStagingArea.length > 0 && (
+                                        <div className="playerPlaying">
+                                            <CardList
+                                                whoControlsThis="player"
+                                                listName="Playing..."
+                                                cardObjects={playerBoard.playStagingArea}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="opponentBoard">
