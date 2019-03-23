@@ -48,6 +48,7 @@ export const GameStateContext = createContext({
     playerBoard: {
         canWorker: false
     },
+    phaseStack: [],
     phase: new Phase()
 });
 
@@ -55,8 +56,6 @@ export const UpdateContext = createContext({ handleUpdate: (payload: StringMap) 
 
 export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }) => {
     const [gameState, updateGameState] = useState();
-    const [playerBoard, updatePlayerBoard] = useState();
-    const [opponentBoard, updateOpponentBoard] = useState();
 
     const GameStateProvider = GameStateContext.Provider;
     const UpdateContextProvider = UpdateContext.Provider;
@@ -70,20 +69,24 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
 
         payload.gameStateId = gameState ? gameState.gameStateId : '';
 
-        callServer(payload).then(gameState => {
-            updateGameState(gameState);
-
-            if (gameState.activePlayer == 1) {
-                updatePlayerBoard(gameState.player1Board);
-                updateOpponentBoard(gameState.player2Board);
+        callServer(payload).then(newGameState => {
+            if (newGameState.activePlayer == 1) {
+                newGameState.playerBoard = newGameState.player1Board;
+                newGameState.opponentBoard = newGameState.player2Board;
             } else {
-                updatePlayerBoard(gameState.player2Board);
-                updateOpponentBoard(gameState.player1Board);
+                newGameState.playerBoard = newGameState.player2Board;
+                newGameState.opponentBoard = newGameState.player1Board;
             }
+
+            if (!newGameState.phaseStack || !newGameState.phaseStack.stack || newGameState.phaseStack.length < 1) return;
+
+            newGameState.phase = newGameState.phaseStack.stack[newGameState.phaseStack.stack.length - 1];
+
+            updateGameState(newGameState);
         });
     }
 
-    if (!gameState || !playerBoard || !opponentBoard) {
+    if (!gameState || !gameState.playerBoard) {
         return <h1>Loading...</h1>;
     }
 
@@ -93,29 +96,23 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
             {
                 <div>
                     <UpdateContextProvider value={{ handleUpdate: handleUpdate }}>
-                        <GameStateProvider
-                            value={{
-                                opponentBoard: opponentBoard,
-                                playerBoard: playerBoard,
-                                phase: gameState.phaseStack.stack[gameState.phaseStack.stack.length - 1]
-                            }}
-                        >
+                        <GameStateProvider value={gameState}>
                             <h1>
-                                Player {gameState.activePlayer}, Turn {playerBoard.turnCount}
+                                Player {gameState.activePlayer}, Turn {gameState.playerBoard.turnCount}
                             </h1>
 
                             <div className="boards">
                                 <div className="playerBoard">
                                     <h1>Your Board</h1>
                                     <h3>
-                                        Gold: {playerBoard.gold}, Workers: {playerBoard.numWorkers}
+                                        Gold: {gameState.playerBoard.gold}, Workers: {gameState.playerBoard.numWorkers}
                                     </h3>
 
-                                    <BuildingList board={playerBoard} whoControlsThis="player" />
+                                    <BuildingList board={gameState.playerBoard} whoControlsThis="player" />
 
                                     <div className="patrollersAndHand">
                                         <div className="playerHand">
-                                            <CardList whoControlsThis="player" listName="Hand" cardObjects={playerBoard.hand} />
+                                            <CardList whoControlsThis="player" listName="Hand" cardObjects={gameState.playerBoard.hand} />
                                         </div>
                                         <div className="playerPatrollers">
                                             <div>
@@ -124,14 +121,14 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                                         </div>
                                     </div>
                                     <div className="playerInPlay">
-                                        <CardList whoControlsThis="player" listName="In Play" cardObjects={playerBoard.inPlay} />
+                                        <CardList whoControlsThis="player" listName="In Play" cardObjects={gameState.playerBoard.inPlay} />
                                     </div>
-                                    {playerBoard.playStagingArea.length > 0 && (
+                                    {gameState.playerBoard.playStagingArea.length > 0 && (
                                         <div className="playerPlaying">
                                             <CardList
                                                 whoControlsThis="player"
                                                 listName="Playing"
-                                                cardObjects={playerBoard.playStagingArea}
+                                                cardObjects={gameState.playerBoard.playStagingArea}
                                             />
                                         </div>
                                     )}
@@ -140,13 +137,13 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                                 <div className="opponentBoard">
                                     <h1>Opponent Board</h1>
                                     <h3>
-                                        Gold: {opponentBoard.gold}, Workers: {opponentBoard.numWorkers}, Hand: {opponentBoard.hand.length},
-                                        Discard: {opponentBoard.discard.length}
+                                        Gold: {gameState.opponentBoard.gold}, Workers: {gameState.opponentBoard.numWorkers}, Hand:{' '}
+                                        {gameState.opponentBoard.hand.length}, Discard: {gameState.opponentBoard.discard.length}
                                     </h3>
 
-                                    <BuildingList board={opponentBoard} whoControlsThis="opponent" />
+                                    <BuildingList board={gameState.opponentBoard} whoControlsThis="opponent" />
 
-                                    <CardList whoControlsThis="opponent" listName="In Play" cardObjects={opponentBoard.inPlay} />
+                                    <CardList whoControlsThis="opponent" listName="In Play" cardObjects={gameState.opponentBoard.inPlay} />
                                 </div>
                             </div>
                         </GameStateProvider>

@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent, useEffect } from 'react';
+import React, { useState, FunctionComponent, useEffect, useContext } from 'react';
 import { WhoControlsThis, StringMap, GameStateContext, Phase } from './CodexGame';
 import { PossibleAction } from './PossibleAction';
 
@@ -7,9 +7,7 @@ export const Card: FunctionComponent<{
     listName: string;
     cardObject: StringMap;
 }> = ({ whoControlsThis, listName, cardObject }) => {
-    const [phase, updatePhase] = useState();
-    const [extraState, updateExtraState] = useState({ label: '' });
-    const [playerBoard, updatePlayerBoard] = useState({ canWorker: true });
+    const gameState = useContext(GameStateContext);
 
     function abilities(staging: boolean = false) {
         let abilities = staging ? cardObject.stagingAbilities : cardObject.abilities;
@@ -55,9 +53,17 @@ export const Card: FunctionComponent<{
                             validateCardOrBuildingId={false}
                         />
                     )}
+                    {cardObject.canAttack && (
+                        <PossibleAction
+                            actionName="Patrol"
+                            actionTitle="Patrol"
+                            cardId={cardObject.cardId}
+                            validateCardOrBuildingId={false}
+                        />
+                    )}
                     {listName != 'Hand' && abilities()}
                     {listName == 'Playing' && abilities(true)}
-                    {listName == 'Hand' && playerBoard && playerBoard.canWorker && (
+                    {listName == 'Hand' && gameState.playerBoard && gameState.playerBoard.canWorker && (
                         <PossibleAction
                             actionName="Worker"
                             actionTitle="Worker"
@@ -71,80 +77,73 @@ export const Card: FunctionComponent<{
     }
 
     return (
-        <GameStateContext.Consumer>
-            {({ playerBoard, phase }) => (
-                <>
-                    {updatePhase(phase)}
-                    {updateExtraState(phase.extraState)}
-                    {updatePlayerBoard(playerBoard)}
-                    <div className="cardOuterDiv">
-                        <a href="#" className="card" key={cardObject.cardId} id={cardObject.cardId}>
-                            [{cardObject.name}]
-                        </a>
-                        <div className="cardInnerDiv">
-                            <ul className="cardMenu">
-                                {playerActions()}
+        <>
+            <div className="cardOuterDiv">
+                <a href="#" className="card" key={cardObject.cardId} id={cardObject.cardId}>
+                    [{cardObject.name}]
+                </a>
+                <div className="cardInnerDiv">
+                    <ul className="cardMenu">
+                        {playerActions()}
 
-                                <PossibleAction
-                                    actionName="AttackCardsChoice"
-                                    actionTitle="Choose: Defender"
-                                    cardId={cardObject.cardId}
-                                    validateCardOrBuildingId={true}
-                                />
+                        <PossibleAction
+                            actionName="AttackCardsChoice"
+                            actionTitle="Choose: Defender"
+                            cardId={cardObject.cardId}
+                            validateCardOrBuildingId={true}
+                        />
 
-                                <PossibleAction
-                                    actionName="AttacksChoice"
-                                    actionTitle="Trigger: Attacks"
-                                    cardId={cardObject.cardId}
-                                    validateCardOrBuildingId={true}
-                                />
+                        <PossibleAction
+                            actionName="AttacksChoice"
+                            actionTitle="Trigger: Attacks"
+                            cardId={cardObject.cardId}
+                            validateCardOrBuildingId={true}
+                        />
 
-                                <PossibleAction
-                                    actionName="DiesOrLeavesChoice"
-                                    actionTitle="Trigger: Dies/Leaves"
-                                    cardId={cardObject.cardId}
-                                    validateCardOrBuildingId={true}
-                                />
+                        <PossibleAction
+                            actionName="DiesOrLeavesChoice"
+                            actionTitle="Trigger: Dies/Leaves"
+                            cardId={cardObject.cardId}
+                            validateCardOrBuildingId={true}
+                        />
 
-                                <PossibleAction
-                                    actionName="UpkeepChoice"
-                                    actionTitle="Trigger: Upkeep"
-                                    cardId={cardObject.cardId}
-                                    validateCardOrBuildingId={true}
-                                />
+                        <PossibleAction
+                            actionName="UpkeepChoice"
+                            actionTitle="Trigger: Upkeep"
+                            cardId={cardObject.cardId}
+                            validateCardOrBuildingId={true}
+                        />
 
-                                <PossibleAction
-                                    actionName="ArrivesChoice"
-                                    actionTitle="Trigger: Arrives"
-                                    cardId={cardObject.cardId}
-                                    validateCardOrBuildingId={true}
-                                />
+                        <PossibleAction
+                            actionName="ArrivesChoice"
+                            actionTitle="Trigger: Arrives"
+                            cardId={cardObject.cardId}
+                            validateCardOrBuildingId={true}
+                        />
 
-                                <PossibleAction
-                                    actionName="DestroyChoice"
-                                    actionTitle="Trigger: Destroy"
-                                    cardId={cardObject.cardId}
-                                    validateCardOrBuildingId={true}
-                                />
+                        <PossibleAction
+                            actionName="DestroyChoice"
+                            actionTitle="Trigger: Destroy"
+                            cardId={cardObject.cardId}
+                            validateCardOrBuildingId={true}
+                        />
 
-                                <PossibleAction
-                                    actionName="AbilityChoice"
-                                    actionTitle={'Choose: ' + extraState.label}
-                                    cardId={cardObject.cardId}
-                                    validateCardOrBuildingId={true}
-                                />
+                        <PossibleAction
+                            actionName="AbilityChoice"
+                            actionTitle={'Choose: ' + gameState.phase.extraState.label}
+                            cardId={cardObject.cardId}
+                            validateCardOrBuildingId={true}
+                        />
 
-                                <PossibleAction
-                                    actionName="TowerRevealChoice"
-                                    actionTitle={'Choose: Reveal'}
-                                    cardId={cardObject.cardId}
-                                    validateCardOrBuildingId={true}
-                                />
-                            </ul>
-                        </div>
-                    </div>
-                </>
-            )}
-        </GameStateContext.Consumer>
+                        <PossibleAction
+                            actionName="TowerRevealChoice"
+                            actionTitle={'Choose: Reveal'}
+                            cardId={cardObject.cardId}
+                            validateCardOrBuildingId={true}
+                        />
+                    </ul>
+                </div>
+            </div>
+        </>
     );
 };

@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent } from 'react';
+import React, { useState, FunctionComponent, useContext } from 'react';
 import { WhoControlsThis, ObjectMap, GameStateContext } from './CodexGame';
 import { PossibleAction } from './PossibleAction';
 
@@ -13,7 +13,7 @@ export const Building: FunctionComponent<{
     whoControlsThis: WhoControlsThis;
 }> = ({ board, buildingProp, whoControlsThis }) => {
     const [building, updateBuilding] = useState();
-    const [extraState, updateExtraState] = useState();
+    const gameState = useContext(GameStateContext);
 
     function buildingExists() {
         return board.hasOwnProperty(buildingProp) && board[buildingProp];
@@ -55,7 +55,7 @@ export const Building: FunctionComponent<{
 
         updateBuilding(board[buildingProp] as BuildingObj);
 
-        if (!building) return null;
+        if (!building || !gameState) return null;
 
         return (
             <>
@@ -78,7 +78,7 @@ export const Building: FunctionComponent<{
 
                             <PossibleAction
                                 actionName="AbilityChoice"
-                                actionTitle={'Choose: ' + extraState.label}
+                                actionTitle={'Choose: ' + gameState.phase.extraState.label}
                                 buildingId={building.name}
                                 validateCardOrBuildingId={true}
                             />
@@ -95,14 +95,5 @@ export const Building: FunctionComponent<{
         );
     }
 
-    return (
-        <GameStateContext.Consumer>
-            {({ phase }) => (
-                <>
-                    {' '}
-                    {updateExtraState(phase.extraState)} {outputBuilding()}{' '}
-                </>
-            )}
-        </GameStateContext.Consumer>
-    );
+    return <>{outputBuilding()}</>;
 };

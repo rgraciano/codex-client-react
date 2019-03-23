@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent } from 'react';
+import React, { useState, FunctionComponent, useContext } from 'react';
 import { StringMap, GameStateContext } from './CodexGame';
 import { Action } from './Action';
 
@@ -10,8 +10,7 @@ export const PossibleAction: FunctionComponent<{
     buildingId?: string;
     extraInfo?: StringMap;
 }> = ({ actionName, actionTitle, cardId, buildingId, validateCardOrBuildingId, extraInfo }) => {
-    const [idsToResolve, updateIdsToResolve] = useState(['a']);
-    const [validActions, updateValidActions] = useState(['a']);
+    const gameState = useContext(GameStateContext);
 
     /**
      * Lists this action if it's in the back-end supplied list of valid actions,
@@ -41,22 +40,12 @@ export const PossibleAction: FunctionComponent<{
     }
 
     function isValidId(id: string) {
-        return idsToResolve && idsToResolve.findIndex(tid => tid === id) > -1;
+        return gameState.phase.idsToResolve && gameState.phase.idsToResolve.findIndex(tid => tid === id) > -1;
     }
 
     function isValidAction(actionName: string): boolean {
-        return validActions && validActions.findIndex(nm => nm === actionName) > -1;
+        return gameState.phase.validActions && gameState.phase.validActions.findIndex(nm => nm === actionName) > -1;
     }
 
-    return (
-        <GameStateContext.Consumer>
-            {({ phase }) => (
-                <>
-                    {updateIdsToResolve(phase.idsToResolve)}
-                    {updateValidActions(phase.validActions)}
-                    {possibleAction()}{' '}
-                </>
-            )}
-        </GameStateContext.Consumer>
-    );
+    return <>{gameState && possibleAction()} </>;
 };
