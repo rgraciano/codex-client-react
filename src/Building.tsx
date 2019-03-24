@@ -53,7 +53,7 @@ export const Building: FunctionComponent<{
     function outputBuilding() {
         if (!buildingExists()) return null;
 
-        updateBuilding(board[buildingProp] as BuildingObj);
+        if (building != board[buildingProp]) updateBuilding(board[buildingProp] as BuildingObj);
 
         if (!building || !gameState) return null;
 
