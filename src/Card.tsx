@@ -23,7 +23,8 @@ export const Card: FunctionComponent<{
                     <PossibleAction
                         actionName={staging ? 'StagingAbility' : 'Ability'}
                         actionTitle={abilities[i]}
-                        cardId={cardObject.cardId}
+                        idName="cardId"
+                        idValue={cardObject.cardId}
                         validateCardOrBuildingId={false}
                         extraInfo={{ abilityName: abilities[i] }}
                     />
@@ -41,7 +42,8 @@ export const Card: FunctionComponent<{
                         <PossibleAction
                             actionName="PlayCard"
                             actionTitle="Play"
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={false}
                         />
                     )}
@@ -49,7 +51,8 @@ export const Card: FunctionComponent<{
                         <PossibleAction
                             actionName="Attack"
                             actionTitle="Attack"
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={false}
                         />
                     )}
@@ -57,7 +60,8 @@ export const Card: FunctionComponent<{
                         <PossibleAction
                             actionName="Patrol"
                             actionTitle="Patrol"
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={false}
                         />
                     )}
@@ -67,7 +71,8 @@ export const Card: FunctionComponent<{
                         <PossibleAction
                             actionName="Worker"
                             actionTitle="Worker"
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={false}
                         />
                     )}
@@ -89,56 +94,64 @@ export const Card: FunctionComponent<{
                         <PossibleAction
                             actionName="AttackCardsChoice"
                             actionTitle="Choose: Defender"
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}
                         />
 
                         <PossibleAction
                             actionName="AttacksChoice"
                             actionTitle="Trigger: Attacks"
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}
                         />
 
                         <PossibleAction
                             actionName="DiesOrLeavesChoice"
                             actionTitle="Trigger: Dies/Leaves"
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}
                         />
 
                         <PossibleAction
                             actionName="UpkeepChoice"
                             actionTitle="Trigger: Upkeep"
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}
                         />
 
                         <PossibleAction
                             actionName="ArrivesChoice"
                             actionTitle="Trigger: Arrives"
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}
                         />
 
                         <PossibleAction
                             actionName="DestroyChoice"
                             actionTitle="Trigger: Destroy"
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}
                         />
 
                         <PossibleAction
                             actionName="AbilityChoice"
                             actionTitle={'Choose: ' + gameState.phase.extraState.label}
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}
                         />
 
                         <PossibleAction
                             actionName="TowerRevealChoice"
                             actionTitle={'Choose: Reveal'}
-                            cardId={cardObject.cardId}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}
                         />
                     </ul>

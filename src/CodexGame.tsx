@@ -3,6 +3,7 @@ import { CardList } from './CardList';
 import { BuildingList } from './BuildingList';
 
 import './CodexGame.css';
+import { PatrolZone } from './PatrolZone';
 
 export class StringMap {
     [s: string]: string;
@@ -27,30 +28,29 @@ async function callServer(payload: StringMap) {
     return resp.json();
 }
 
-/*
-export const Patroller: React.FunctionComponent<{ whoControlsThis: WhoControlsThis, patrollerSlot: string, updater: Updater, cardObject: StringMap }> 
-                                            = ({ whoControlsThis, patrollerSlot, updater, cardObject }) => {
-    return (
-        <div>
-            <h3>{patrollerSlot}: <Card whoControlsThis={whoControlsThis} updater={updater} listName={"Patrollers"} cardObject={cardObject} /></h3>
-        </div>
-    );
-}*/
+export type PrimitiveMap = {
+    [k: string]: string | number | boolean | object;
+};
 
 export class Phase {
     validActions: string[] = [];
     idsToResolve: string[] = [];
-    extraState = { label: '' };
+    extraState: PrimitiveMap = {};
 }
 
-export const GameStateContext = createContext({
-    opponentBoard: {},
-    playerBoard: {
-        canWorker: false
-    },
-    phaseStack: [],
-    phase: new Phase()
-});
+export class Board {
+    canWorker: boolean = false;
+    patrolZone: PrimitiveMap = {};
+}
+
+export class GameState {
+    opponentBoard: Board = new Board();
+    playerBoard: Board = new Board();
+    phaseStack: Phase[] = [];
+    phase: Phase = new Phase();
+}
+
+export const GameStateContext = createContext<GameState>(new GameState());
 
 export const UpdateContext = createContext({ handleUpdate: (payload: StringMap) => {} });
 
@@ -115,9 +115,7 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                                             <CardList whoControlsThis="player" listName="Hand" cardObjects={gameState.playerBoard.hand} />
                                         </div>
                                         <div className="playerPatrollers">
-                                            <div>
-                                                <h2>Patrollers:</h2>
-                                            </div>
+                                            <PatrolZone whoControlsThis="player" />
                                         </div>
                                     </div>
                                     <div className="playerInPlay">

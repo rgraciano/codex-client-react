@@ -24,7 +24,8 @@ export const Building: FunctionComponent<{
             <PossibleAction
                 actionName="Build"
                 actionTitle={'Build ' + addOnStr}
-                buildingId={building.name}
+                idName="buildingId"
+                idValue={building.name}
                 validateCardOrBuildingId={false}
                 extraInfo={{ addOnType: addOnStr }}
             />
@@ -44,7 +45,15 @@ export const Building: FunctionComponent<{
         }
 
         if (building.canReveal) {
-            actions.push(<PossibleAction actionName="Reveal" actionTitle="Reveal Stealth/Invisible" validateCardOrBuildingId={false} />);
+            actions.push(
+                <PossibleAction
+                    actionName="Reveal"
+                    actionTitle="Reveal Stealth/Invisible"
+                    idName=""
+                    idValue=""
+                    validateCardOrBuildingId={false}
+                />
+            );
         }
 
         return actions;
@@ -69,7 +78,8 @@ export const Building: FunctionComponent<{
                                 <PossibleAction
                                     actionName="Build"
                                     actionTitle="Build"
-                                    buildingId={building.name}
+                                    idName="buildingId"
+                                    idValue={building.name}
                                     validateCardOrBuildingId={false}
                                 />
                             )}
@@ -79,13 +89,15 @@ export const Building: FunctionComponent<{
                             <PossibleAction
                                 actionName="AbilityChoice"
                                 actionTitle={'Choose: ' + gameState.phase.extraState.label}
-                                buildingId={building.name}
+                                idName="buildingId"
+                                idValue={building.name}
                                 validateCardOrBuildingId={true}
                             />
                             <PossibleAction
                                 actionName="AttackCardsOrBuildingsChoice"
                                 actionTitle="Choose: Defender"
-                                buildingId={building.name}
+                                idName="buildingId"
+                                idValue={building.name}
                                 validateCardOrBuildingId={true}
                             />
                         </ul>

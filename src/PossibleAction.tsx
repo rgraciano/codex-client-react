@@ -5,11 +5,11 @@ import { Action } from './Action';
 export const PossibleAction: FunctionComponent<{
     actionName: string;
     actionTitle: string;
+    idValue: string;
+    idName: string;
     validateCardOrBuildingId: boolean;
-    cardId?: string;
-    buildingId?: string;
     extraInfo?: StringMap;
-}> = ({ actionName, actionTitle, cardId, buildingId, validateCardOrBuildingId, extraInfo }) => {
+}> = ({ actionName, actionTitle, idValue, idName, validateCardOrBuildingId, extraInfo }) => {
     const gameState = useContext(GameStateContext);
 
     /**
@@ -20,16 +20,6 @@ export const PossibleAction: FunctionComponent<{
      * so we allow those actions to skip the validIdCheck here.
      */
     function possibleAction() {
-        let idValue: string, idName: string;
-
-        if (cardId) {
-            idValue = cardId;
-            idName = 'cardId';
-        } else if (buildingId) {
-            idValue = buildingId;
-            idName = 'buildingId';
-        } else return null;
-
         if (validateCardOrBuildingId && !isValidId(idValue)) return null;
 
         return (
