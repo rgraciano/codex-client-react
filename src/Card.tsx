@@ -56,7 +56,7 @@ export const Card: FunctionComponent<{
                             validateCardOrBuildingId={false}
                         />
                     )}
-                    {cardObject.canAttack && (
+                    {cardObject.canPatrol && (
                         <PossibleAction
                             actionName="Patrol"
                             actionTitle="Patrol"

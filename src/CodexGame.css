@@ -27,10 +27,6 @@ h2 {
     flex: 40%;
 }
 
-.playerPatrollers {
-    flex: 60%;
-}
-
 .cardOuterDiv {
     padding-top: 15px;
     transition: transform 500ms ease-in-out;
@@ -66,4 +62,15 @@ h2 {
 .cardAnimation-exit.cardAnimation-exit-active {
     opacity: 0.01;
     transition: opacity 300ms ease-in;
+}
+
+.patrollerName {
+    display: inline;
+}
+.patrolSlot {
+    padding-top: 15px;
+}
+.playerPatrollers {
+    flex: 60%;
+    padding-left: 20px;
 }

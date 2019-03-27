@@ -11,19 +11,30 @@ export const PatrolZone: FunctionComponent<{
     function cardOrOpenSlot(slotName: string, displayName: string) {
         let board = whoControlsThis == 'player' ? gameState.playerBoard : gameState.opponentBoard;
 
-        if (board.patrolZone && board.patrolZone[slotName])
-            <CardList whoControlsThis={whoControlsThis} listName={displayName} cardObjects={[board.patrolZone[slotName] as StringMap]} />;
-        else if (whoControlsThis == 'player') {
-            <div>
-                <h2>{displayName}: </h2>
-                <PossibleAction
-                    actionName="PatrolChoice"
-                    actionTitle="Choose"
-                    idName="patrolSlot"
-                    idValue={slotName}
-                    validateCardOrBuildingId={false}
-                />
-            </div>;
+        if (board.patrolZone && board.patrolZone[slotName]) {
+            return (
+                <div className="patrolSlot">
+                    <h4 className="patrollerName">{displayName}: </h4>
+                    <CardList
+                        whoControlsThis={whoControlsThis}
+                        listName={displayName}
+                        cardObjects={[board.patrolZone[slotName] as StringMap]}
+                    />
+                </div>
+            );
+        } else if (whoControlsThis == 'player') {
+            return (
+                <div className="patrolSlot">
+                    <h4 className="patrollerName">{displayName}: </h4>
+                    <PossibleAction
+                        actionName="PatrolChoice"
+                        actionTitle="Choose"
+                        idName="patrolSlot"
+                        idValue={slotName}
+                        validateCardOrBuildingId={false}
+                    />
+                </div>
+            );
         }
     }
 
