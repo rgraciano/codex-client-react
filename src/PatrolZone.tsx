@@ -11,12 +11,14 @@ export const PatrolZone: FunctionComponent<{
     function cardOrOpenSlot(slotName: string, displayName: string) {
         let board = whoControlsThis == 'player' ? gameState.playerBoard : gameState.opponentBoard;
 
+        let displayObj = <h4 className="patrollerName">{displayName}: </h4>;
+
         if (board.patrolZone && board.patrolZone[slotName]) {
             return (
                 <div className="patrolSlot">
-                    <h4 className="patrollerName">{displayName}: </h4>
                     <CardList
                         whoControlsThis={whoControlsThis}
+                        listDisplayObj={displayObj}
                         listName={displayName}
                         cardObjects={[board.patrolZone[slotName] as StringMap]}
                     />
@@ -25,7 +27,7 @@ export const PatrolZone: FunctionComponent<{
         } else if (whoControlsThis == 'player') {
             return (
                 <div className="patrolSlot">
-                    <h4 className="patrollerName">{displayName}: </h4>
+                    {displayObj}
                     <PossibleAction
                         actionName="PatrolChoice"
                         actionTitle="Choose"

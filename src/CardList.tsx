@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, Component } from 'react';
 import { WhoControlsThis, StringMap } from './CodexGame';
 import { Card } from './Card';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'; // https://github.com/reactjs/react-transition-group/blob/master/Migration.md
@@ -6,8 +6,9 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group'; // http
 export const CardList: FunctionComponent<{
     whoControlsThis: WhoControlsThis;
     listName: string;
+    listDisplayObj?: React.ReactElement;
     cardObjects: StringMap[];
-}> = ({ whoControlsThis, listName, cardObjects }) => {
+}> = ({ whoControlsThis, listName, listDisplayObj, cardObjects }) => {
     function cards(cardObjects: StringMap[]) {
         let objs = cardObjects.map(cardObj => (
             <CSSTransition key={cardObj.cardId} classNames="cardAnimation" timeout={{ enter: 300, exit: 300 }}>
@@ -24,7 +25,7 @@ export const CardList: FunctionComponent<{
 
     return (
         <div>
-            <h2>{listName}:</h2> {cards(cardObjects)}
+            {listDisplayObj || <h2>{listName}: </h2>} {cards(cardObjects)}
         </div>
     );
 };
