@@ -65,6 +65,15 @@ export const Card: FunctionComponent<{
                             validateCardOrBuildingId={false}
                         />
                     )}
+                    {cardObject.canSideline && (
+                        <PossibleAction
+                            actionName="Sideline"
+                            actionTitle="Sideline"
+                            idName="cardId"
+                            idValue={cardObject.cardId}
+                            validateCardOrBuildingId={false}
+                        />
+                    )}
                     {listName != 'Hand' && abilities()}
                     {listName == 'Playing' && abilities(true)}
                     {listName == 'Hand' && gameState.playerBoard && gameState.playerBoard.canWorker && (
