@@ -68,7 +68,7 @@ export const Card: FunctionComponent<{
                     {cardObject.canSideline && (
                         <PossibleAction
                             actionName="Sideline"
-                            actionTitle="Sideline"
+                            actionTitle="Unpatrol"
                             idName="cardId"
                             idValue={cardObject.cardId}
                             validateCardOrBuildingId={false}
