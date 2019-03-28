@@ -110,6 +110,10 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
 
                                     <BuildingList board={gameState.playerBoard} whoControlsThis="player" />
 
+                                    <div className="heroes">
+                                        <CardList whoControlsThis="player" listName="Heroes" cardObjects={gameState.playerBoard.heroZone} />
+                                    </div>
+
                                     <div className="patrollersAndHand">
                                         <div className="playerHand">
                                             <CardList whoControlsThis="player" listName="Hand" cardObjects={gameState.playerBoard.hand} />
