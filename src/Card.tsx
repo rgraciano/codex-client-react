@@ -1,6 +1,7 @@
 import React, { useState, FunctionComponent, useEffect, useContext } from 'react';
 import { WhoControlsThis, StringMap, GameStateContext, Phase } from './CodexGame';
 import { PossibleAction } from './PossibleAction';
+import Popup from 'reactjs-popup';
 
 export const Card: FunctionComponent<{
     whoControlsThis: WhoControlsThis;
@@ -90,12 +91,20 @@ export const Card: FunctionComponent<{
         } else return null;
     }
 
+    function cardLink() {
+        return (
+            <a href="#" className="card" key={cardObject.cardId} id={cardObject.cardId}>
+                [{cardObject.name}]
+            </a>
+        );
+    }
+
     return (
         <>
             <div className="cardOuterDiv">
-                <a href="#" className="card" key={cardObject.cardId} id={cardObject.cardId}>
-                    [{cardObject.name}]
-                </a>
+                <Popup trigger={cardLink()} position="right center">
+                    <div>hi</div>
+                </Popup>
                 <div className="cardInnerDiv">
                     <ul className="cardMenu">
                         {playerActions()}
