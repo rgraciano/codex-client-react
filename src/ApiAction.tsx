@@ -1,7 +1,7 @@
 import React, { useState, FunctionComponent } from 'react';
 import { StringMap, GameStateContext, Phase, UpdateContext } from './CodexGame';
 
-export const Action: FunctionComponent<{
+export const ApiAction: FunctionComponent<{
     actionName: string;
     actionTitle: string;
     idValue?: string;

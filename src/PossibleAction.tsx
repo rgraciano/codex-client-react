@@ -1,6 +1,6 @@
 import React, { useState, FunctionComponent, useContext } from 'react';
-import { StringMap, GameStateContext } from './CodexGame';
-import { Action } from './Action';
+import { StringMap, GameStateContext, Action } from './CodexGame';
+import { ApiAction } from './ApiAction';
 
 export const PossibleAction: FunctionComponent<{
     actionName: string;
@@ -20,21 +20,23 @@ export const PossibleAction: FunctionComponent<{
      * so we allow those actions to skip the validIdCheck here.
      */
     function possibleAction() {
-        if (validateCardOrBuildingId && !isValidId(idValue)) return null;
+        if (validateCardOrBuildingId && !isValidId(actionName, idValue)) return null;
 
         return (
-            isValidAction(actionName) && (
-                <Action actionName={actionName} actionTitle={actionTitle} idValue={idValue} idName={idName} extraInfo={extraInfo} />
+            getAction(actionName) && (
+                <ApiAction actionName={actionName} actionTitle={actionTitle} idValue={idValue} idName={idName} extraInfo={extraInfo} />
             )
         );
     }
 
-    function isValidId(id: string) {
-        return gameState.phase.idsToResolve && gameState.phase.idsToResolve.findIndex(tid => tid === id) > -1;
+    function getAction(actionName: string) {
+        return gameState.phase.actions.find((action: Action) => action.name === actionName);
     }
 
-    function isValidAction(actionName: string): boolean {
-        return gameState.phase.validActions && gameState.phase.validActions.findIndex(nm => nm === actionName) > -1;
+    function isValidId(actionName: string, id: string) {
+        let action = getAction(actionName);
+        if (action) return action.idsToResolve.findIndex(tid => tid === id) > -1;
+        else return false;
     }
 
     return <>{gameState && possibleAction()} </>;

@@ -32,9 +32,13 @@ export type PrimitiveMap = {
     [k: string]: string | number | boolean | object;
 };
 
-export class Phase {
-    validActions: string[] = [];
+export class Action {
+    name: string = '';
     idsToResolve: string[] = [];
+}
+
+export class Phase {
+    actions: Action[] = [];
     extraState: PrimitiveMap = {};
 }
 
