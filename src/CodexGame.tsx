@@ -45,6 +45,7 @@ export class Phase {
 export class Board {
     canWorker: boolean = false;
     patrolZone: PrimitiveMap = {};
+    gold: number = 1;
 }
 
 export class GameState {
@@ -115,7 +116,11 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                                     <BuildingList board={gameState.playerBoard} whoControlsThis="player" />
 
                                     <div className="heroes">
-                                        <CardList whoControlsThis="player" listName="Heroes" cardObjects={gameState.playerBoard.heroZone} />
+                                        <CardList
+                                            whoControlsThis="player"
+                                            listName="HeroZone"
+                                            cardObjects={gameState.playerBoard.heroZone}
+                                        />
                                     </div>
 
                                     <div className="patrollersAndHand">

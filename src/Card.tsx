@@ -86,6 +86,18 @@ export const Card: FunctionComponent<{
                             validateCardOrBuildingId={false}
                         />
                     )}
+                    {listName != 'HeroZone' &&
+                        cardObject.cardType == 'Hero' &&
+                        cardObject.level < cardObject.maxLevel &&
+                        gameState.playerBoard.gold > 0 && (
+                            <PossibleAction
+                                actionName="HeroLevel"
+                                actionTitle="+1 Lvl"
+                                idName="cardId"
+                                idValue={cardObject.cardId}
+                                validateCardOrBuildingId={false}
+                            />
+                        )}
                 </>
             );
         } else return null;
