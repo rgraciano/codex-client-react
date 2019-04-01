@@ -172,6 +172,14 @@ export const Card: FunctionComponent<{
                             idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}
                         />
+
+                        <PossibleAction
+                            actionName="HeroLevelChoice"
+                            actionTitle={'Choose: +2 levels'}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
+                            validateCardOrBuildingId={true}
+                        />
                     </ul>
                 </div>
             </div>
