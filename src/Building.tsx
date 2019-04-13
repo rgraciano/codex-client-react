@@ -1,5 +1,5 @@
 import React, { useState, FunctionComponent, useContext } from 'react';
-import { WhoControlsThis, ObjectMap, GameStateContext } from './CodexGame';
+import { WhoControlsThis, Board, GameStateContext } from './CodexGame';
 import { PossibleAction } from './PossibleAction';
 
 export type BuildingObj = {
@@ -9,7 +9,7 @@ export type BuildingObj = {
 
 export const Building: FunctionComponent<{
     buildingProp: string;
-    board: ObjectMap;
+    board: Board;
     whoControlsThis: WhoControlsThis;
 }> = ({ board, buildingProp, whoControlsThis }) => {
     const [building, updateBuilding] = useState();

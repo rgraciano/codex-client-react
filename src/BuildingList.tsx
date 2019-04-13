@@ -1,9 +1,9 @@
 import React, { useState, FunctionComponent } from 'react';
-import { WhoControlsThis, ObjectMap, GameStateContext } from './CodexGame';
+import { WhoControlsThis, Board } from './CodexGame';
 import { Building } from './Building';
 
 export const BuildingList: FunctionComponent<{
-    board: ObjectMap;
+    board: Board;
     whoControlsThis: WhoControlsThis;
 }> = ({ board, whoControlsThis }) => {
     return (

@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect, FunctionComponent } from 'react';
-import { CardList } from './CardList';
-import { BuildingList } from './BuildingList';
 
 import './CodexGame.css';
-import { PatrolZone } from './PatrolZone';
+
+import { CardList } from './CardList';
+import { BuildingList } from './BuildingList';
 import { PossibleAction } from './PossibleAction';
+import { BoardArea } from './BoardArea';
 
 export class StringMap {
     [s: string]: string;
@@ -44,9 +45,15 @@ export class Phase {
 }
 
 export class Board {
+    [k: string]: any;
     canWorker: boolean = false;
     patrolZone: PrimitiveMap = {};
     gold: number = 1;
+    numWorkers: number = 1;
+    heroZone: StringMap[] = [];
+    hand: StringMap[] = [];
+    inPlay: StringMap[] = [];
+    playStagingArea: StringMap[] = [];
 }
 
 export class GameState {
@@ -111,55 +118,8 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                             </div>
 
                             <div className="boards">
-                                <div className="playerBoard">
-                                    <h1>Your Board</h1>
-                                    <h3>
-                                        Gold: {gameState.playerBoard.gold}, Workers: {gameState.playerBoard.numWorkers}
-                                    </h3>
-
-                                    <BuildingList board={gameState.playerBoard} whoControlsThis="player" />
-
-                                    <div className="heroes">
-                                        <CardList
-                                            whoControlsThis="player"
-                                            listName="HeroZone"
-                                            cardObjects={gameState.playerBoard.heroZone}
-                                        />
-                                    </div>
-
-                                    <div className="patrollersAndHand">
-                                        <div className="playerHand">
-                                            <CardList whoControlsThis="player" listName="Hand" cardObjects={gameState.playerBoard.hand} />
-                                        </div>
-                                        <div className="playerPatrollers">
-                                            <PatrolZone whoControlsThis="player" />
-                                        </div>
-                                    </div>
-                                    <div className="playerInPlay">
-                                        <CardList whoControlsThis="player" listName="In Play" cardObjects={gameState.playerBoard.inPlay} />
-                                    </div>
-                                    {gameState.playerBoard.playStagingArea.length > 0 && (
-                                        <div className="playerPlaying">
-                                            <CardList
-                                                whoControlsThis="player"
-                                                listName="Playing"
-                                                cardObjects={gameState.playerBoard.playStagingArea}
-                                            />
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="opponentBoard">
-                                    <h1>Opponent Board</h1>
-                                    <h3>
-                                        Gold: {gameState.opponentBoard.gold}, Workers: {gameState.opponentBoard.numWorkers}, Hand:{' '}
-                                        {gameState.opponentBoard.hand.length}, Discard: {gameState.opponentBoard.discard.length}
-                                    </h3>
-
-                                    <BuildingList board={gameState.opponentBoard} whoControlsThis="opponent" />
-
-                                    <CardList whoControlsThis="opponent" listName="In Play" cardObjects={gameState.opponentBoard.inPlay} />
-                                </div>
+                                <BoardArea board={gameState.playerBoard} whoControlsThis="player" />
+                                <BoardArea board={gameState.opponentBoard} whoControlsThis="opponent" />
                             </div>
                         </GameStateProvider>
                     </UpdateContextProvider>
