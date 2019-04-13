@@ -5,11 +5,11 @@ import { ApiAction } from './ApiAction';
 export const PossibleAction: FunctionComponent<{
     actionName: string;
     actionTitle: string;
-    idValue: string;
-    idName: string;
     validateCardOrBuildingId: boolean;
+    idValue?: string;
+    idName?: string;
     extraInfo?: StringMap;
-}> = ({ actionName, actionTitle, idValue, idName, validateCardOrBuildingId, extraInfo }) => {
+}> = ({ actionName, actionTitle, validateCardOrBuildingId, extraInfo, idValue = undefined, idName = undefined }) => {
     const gameState = useContext(GameStateContext);
 
     /**
@@ -33,7 +33,8 @@ export const PossibleAction: FunctionComponent<{
         return gameState.phase.actions.find((action: Action) => action.name === actionName);
     }
 
-    function isValidId(actionName: string, id: string) {
+    function isValidId(actionName: string, id: string | undefined) {
+        if (!id) return true;
         let action = getAction(actionName);
         if (action) return action.idsToResolve.findIndex(tid => tid === id) > -1;
         else return false;

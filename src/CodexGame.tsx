@@ -4,6 +4,7 @@ import { BuildingList } from './BuildingList';
 
 import './CodexGame.css';
 import { PatrolZone } from './PatrolZone';
+import { PossibleAction } from './PossibleAction';
 
 export class StringMap {
     [s: string]: string;
@@ -102,9 +103,12 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                 <div>
                     <UpdateContextProvider value={{ handleUpdate: handleUpdate }}>
                         <GameStateProvider value={gameState}>
-                            <h1>
-                                Player {gameState.activePlayer}, Turn {gameState.playerBoard.turnCount}
-                            </h1>
+                            <div className="playerArea">
+                                <h1>
+                                    Player {gameState.activePlayer}, Turn {gameState.playerBoard.turnCount}
+                                </h1>
+                                <PossibleAction actionName="EndTurn" actionTitle="End Turn" validateCardOrBuildingId={false} />
+                            </div>
 
                             <div className="boards">
                                 <div className="playerBoard">

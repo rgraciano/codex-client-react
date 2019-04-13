@@ -192,6 +192,14 @@ export const Card: FunctionComponent<{
                             idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}
                         />
+
+                        <PossibleAction
+                            actionName="EndTurnChoice"
+                            actionTitle={'Trigger: End of Turn'}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
+                            validateCardOrBuildingId={true}
+                        />
                     </ul>
                 </div>
             </div>
