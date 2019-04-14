@@ -8,11 +8,11 @@ export const BuildingList: FunctionComponent<{
 }> = ({ board, whoControlsThis }) => {
     return (
         <div className="playerBuildings">
-            <Building buildingProp="base" board={board} whoControlsThis="player" />
-            <Building buildingProp="tech1" board={board} whoControlsThis="player" />
-            <Building buildingProp="tech2" board={board} whoControlsThis="player" />
-            <Building buildingProp="tech3" board={board} whoControlsThis="player" />
-            <Building buildingProp="addOn" board={board} whoControlsThis="player" />
+            <Building buildingProp="base" board={board} whoControlsThis={whoControlsThis} />
+            <Building buildingProp="tech1" board={board} whoControlsThis={whoControlsThis} />
+            <Building buildingProp="tech2" board={board} whoControlsThis={whoControlsThis} />
+            <Building buildingProp="tech3" board={board} whoControlsThis={whoControlsThis} />
+            <Building buildingProp="addOn" board={board} whoControlsThis={whoControlsThis} />
         </div>
     );
 };
