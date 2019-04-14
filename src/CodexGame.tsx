@@ -2,8 +2,6 @@ import React, { createContext, useState, useEffect, FunctionComponent } from 're
 
 import './CodexGame.css';
 
-import { CardList } from './CardList';
-import { BuildingList } from './BuildingList';
 import { PossibleAction } from './PossibleAction';
 import { BoardArea } from './BoardArea';
 
@@ -44,21 +42,46 @@ export class Phase {
     extraState: PrimitiveMap = {};
 }
 
-export class Board {
+export class BoardData {
     [k: string]: any;
     canWorker: boolean = false;
     patrolZone: PrimitiveMap = {};
     gold: number = 1;
     numWorkers: number = 1;
-    heroZone: StringMap[] = [];
-    hand: StringMap[] = [];
-    inPlay: StringMap[] = [];
-    playStagingArea: StringMap[] = [];
+    heroZone: CardData[] = [];
+    hand: CardData[] = [];
+    inPlay: CardData[] = [];
+    playStagingArea: CardData[] = [];
+}
+
+export class CardData {
+    cardId: string = '';
+    name: string = '';
+    allAttack: number = 1;
+    allHealth: number = 1;
+    costAfterAlterations: number = 1;
+    cardType: string = '';
+    canPlay: boolean = false;
+    canAttack: boolean = false;
+    canPatrol: boolean = false;
+    canSideline: boolean = false;
+    baseAttributes: AttributeData = {};
+    attributeModifiers: AttributeData = {};
+    canUseAbilities: boolean[] = [];
+    canUseStagingAbilities: boolean[] = [];
+    stagingAbilities: string[] = [];
+    abilities: string[] = [];
+    level: number = 1;
+    maxLevel: number = 1;
+}
+
+export class AttributeData {
+    [k: string]: number;
 }
 
 export class GameState {
-    opponentBoard: Board = new Board();
-    playerBoard: Board = new Board();
+    opponentBoard: BoardData = new BoardData();
+    playerBoard: BoardData = new BoardData();
     phaseStack: Phase[] = [];
     phase: Phase = new Phase();
 }

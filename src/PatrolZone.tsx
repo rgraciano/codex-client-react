@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { WhoControlsThis, StringMap, GameStateContext } from './CodexGame';
+import { WhoControlsThis, StringMap, GameStateContext, CardData } from './CodexGame';
 import { PossibleAction } from './PossibleAction';
 import { CardList } from './CardList';
 
@@ -20,7 +20,7 @@ export const PatrolZone: FunctionComponent<{
                         whoControlsThis={whoControlsThis}
                         listDisplayObj={displayObj}
                         listName={displayName}
-                        cardObjects={[board.patrolZone[slotName] as StringMap]}
+                        cardObjects={[board.patrolZone[slotName] as CardData]}
                     />
                 </div>
             );

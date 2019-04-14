@@ -1,11 +1,11 @@
 import React, { FunctionComponent, Component } from 'react';
-import { WhoControlsThis, Board } from './CodexGame';
+import { WhoControlsThis, BoardData } from './CodexGame';
 import { CardList } from './CardList';
 import { PatrolZone } from './PatrolZone';
 import { BuildingList } from './BuildingList';
 
 export const BoardArea: FunctionComponent<{
-    board: Board;
+    board: BoardData;
     whoControlsThis: WhoControlsThis;
 }> = ({ board, whoControlsThis }) => {
     function outputHand() {

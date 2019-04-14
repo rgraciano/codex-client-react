@@ -1,12 +1,12 @@
 import React, { useState, FunctionComponent, useEffect, useContext } from 'react';
-import { WhoControlsThis, StringMap, GameStateContext, Phase } from './CodexGame';
+import { WhoControlsThis, CardData, GameStateContext } from './CodexGame';
 import { PossibleAction } from './PossibleAction';
 import Popup from 'reactjs-popup';
 
 export const Card: FunctionComponent<{
     whoControlsThis: WhoControlsThis;
     listName: string;
-    cardObject: StringMap;
+    cardObject: CardData;
 }> = ({ whoControlsThis, listName, cardObject }) => {
     const gameState = useContext(GameStateContext);
 
@@ -33,6 +33,29 @@ export const Card: FunctionComponent<{
         }
 
         return printingAbilities;
+    }
+
+    function attributes() {
+        let elements: JSX.Element[] = [];
+
+        elements.push(<li>Cost: {cardObject.costAfterAlterations}</li>);
+
+        if (cardObject.cardType == 'Unit' || cardObject.cardType == 'Hero') elements.push(<li>Attack: {cardObject.allAttack}</li>);
+
+        if (cardObject.cardType != 'Upgrade' && cardObject.cardType != 'Spell') elements.push(<li>Health: {cardObject.allHealth}</li>);
+
+        for (let attrName in cardObject.baseAttributes) {
+            let attrTotal = cardObject.baseAttributes[attrName] + cardObject.attributeModifiers[attrName];
+            if (attrTotal > 0 && attrName != 'cost' && attrName != 'attack' && attrName != 'health') {
+                elements.push(
+                    <li>
+                        {attrName.charAt(0).toLocaleUpperCase() + attrName.substring(1)}: {attrTotal}
+                    </li>
+                );
+            }
+        }
+
+        return <ul>{elements}</ul>;
     }
 
     function playerActions() {
@@ -115,7 +138,7 @@ export const Card: FunctionComponent<{
         <>
             <div className="cardOuterDiv">
                 <Popup trigger={cardLink()} position="right center">
-                    <div>hi</div>
+                    <div>{attributes()}</div>
                 </Popup>
                 <div className="cardInnerDiv">
                     <ul className="cardMenu">
