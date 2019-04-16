@@ -1,5 +1,5 @@
-import React, { useState, FunctionComponent, useEffect, useContext } from 'react';
-import { WhoControlsThis, CardData, GameStateContext } from './CodexGame';
+import React, { FunctionComponent, useContext } from 'react';
+import { WhoControlsThis, CardData, GameStateContext, Phase } from './CodexGame';
 import { PossibleAction } from './PossibleAction';
 import Popup from 'reactjs-popup';
 
@@ -194,7 +194,7 @@ export const Card: FunctionComponent<{
 
                         <PossibleAction
                             actionName="AbilityChoice"
-                            actionTitle={'Choose: ' + gameState.phase.extraState.label}
+                            actionTitle={'Choose: ' + Phase.getAction(gameState.phase, 'AbilityChoice').extraState.label}
                             idName="cardId"
                             idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}

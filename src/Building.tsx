@@ -1,5 +1,5 @@
 import React, { useState, FunctionComponent, useContext } from 'react';
-import { WhoControlsThis, BoardData, GameStateContext } from './CodexGame';
+import { WhoControlsThis, BoardData, GameStateContext, Phase } from './CodexGame';
 import { PossibleAction } from './PossibleAction';
 
 export type BuildingObj = {
@@ -88,7 +88,7 @@ export const Building: FunctionComponent<{
 
                             <PossibleAction
                                 actionName="AbilityChoice"
-                                actionTitle={'Choose: ' + gameState.phase.extraState.label}
+                                actionTitle={'Choose: ' + Phase.getAction(gameState.phase, 'AbilityChoice').extraState.label}
                                 idName="buildingId"
                                 idValue={building.name}
                                 validateCardOrBuildingId={true}

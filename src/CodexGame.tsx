@@ -35,11 +35,16 @@ export type PrimitiveMap = {
 export class Action {
     name: string = '';
     idsToResolve: string[] = [];
+    extraState: PrimitiveMap = {};
 }
 
 export class Phase {
     actions: Action[] = [];
-    extraState: PrimitiveMap = {};
+    static getAction(phase: Phase, actionName: string): Action {
+        let action = phase.actions.find((action: Action) => action.name == actionName);
+        if (action == undefined) return new Action();
+        else return action;
+    }
 }
 
 export class BoardData {
