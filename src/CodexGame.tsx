@@ -57,6 +57,8 @@ export class BoardData {
     hand: CardData[] = [];
     inPlay: CardData[] = [];
     playStagingArea: CardData[] = [];
+    deck: CardData[] = [];
+    discard: CardData[] = [];
 }
 
 export class CardData {
