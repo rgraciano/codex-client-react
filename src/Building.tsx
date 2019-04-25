@@ -94,7 +94,7 @@ export const Building: FunctionComponent<{
                                 validateCardOrBuildingId={true}
                             />
                             <PossibleAction
-                                actionName="AttackCardsOrBuildingsChoice"
+                                actionName="DefenderChoice"
                                 actionTitle="Choose: Defender"
                                 idName="buildingId"
                                 idValue={building.name}
