@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { WhoControlsThis, StringMap, GameStateContext, CardData } from './CodexGame';
+import { WhoControlsThis, GameStateContext } from './CodexGame';
+import { CardData } from './DataTypes';
 import { PossibleAction } from './PossibleAction';
 import { CardList } from './CardList';
 

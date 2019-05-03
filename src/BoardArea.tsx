@@ -1,5 +1,6 @@
 import React, { FunctionComponent, Component } from 'react';
-import { WhoControlsThis, BoardData } from './CodexGame';
+import { WhoControlsThis } from './CodexGame';
+import { BoardData } from './DataTypes';
 import { CardList } from './CardList';
 import { PatrolZone } from './PatrolZone';
 import { BuildingList } from './BuildingList';

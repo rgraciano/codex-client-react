@@ -1,5 +1,6 @@
-import React, { useState, FunctionComponent, useContext } from 'react';
-import { StringMap, GameStateContext, Action } from './CodexGame';
+import React, { FunctionComponent, useContext } from 'react';
+import { GameStateContext } from './CodexGame';
+import { StringMap, Action } from './DataTypes';
 import { ApiAction } from './ApiAction';
 
 export const PossibleAction: FunctionComponent<{

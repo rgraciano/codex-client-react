@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { WhoControlsThis, CardData, GameStateContext, Phase } from './CodexGame';
+import { WhoControlsThis, GameStateContext } from './CodexGame';
+import { CardData, Phase } from './DataTypes';
 import { PossibleAction } from './PossibleAction';
 import Popup from 'reactjs-popup';
 

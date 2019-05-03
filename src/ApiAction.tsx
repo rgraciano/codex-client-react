@@ -1,5 +1,6 @@
-import React, { useState, FunctionComponent } from 'react';
-import { StringMap, GameStateContext, Phase, UpdateContext } from './CodexGame';
+import React, { FunctionComponent } from 'react';
+import { UpdateContext } from './CodexGame';
+import { StringMap } from './DataTypes';
 
 export const ApiAction: FunctionComponent<{
     actionName: string;

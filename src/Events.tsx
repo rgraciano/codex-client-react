@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { CardData, EventDescriptor } from './CodexGame';
-import { Card } from './Card';
+import { EventDescriptor } from './DataTypes';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'; // https://github.com/reactjs/react-transition-group/blob/master/Migration.md
 
 export const Events: FunctionComponent<{

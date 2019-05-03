@@ -1,5 +1,6 @@
 import React, { useState, FunctionComponent, useContext } from 'react';
-import { WhoControlsThis, BoardData, GameStateContext, Phase } from './CodexGame';
+import { WhoControlsThis, GameStateContext } from './CodexGame';
+import { BoardData, Phase } from './DataTypes';
 import { PossibleAction } from './PossibleAction';
 
 export type BuildingObj = {

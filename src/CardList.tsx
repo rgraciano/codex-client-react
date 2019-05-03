@@ -1,5 +1,6 @@
-import React, { FunctionComponent, Component } from 'react';
-import { WhoControlsThis, CardData } from './CodexGame';
+import React, { FunctionComponent } from 'react';
+import { WhoControlsThis } from './CodexGame';
+import { CardData } from './DataTypes';
 import { Card } from './Card';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'; // https://github.com/reactjs/react-transition-group/blob/master/Migration.md
 

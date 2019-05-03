@@ -1,5 +1,6 @@
-import React, { useState, FunctionComponent } from 'react';
-import { WhoControlsThis, BoardData } from './CodexGame';
+import React, { FunctionComponent } from 'react';
+import { WhoControlsThis } from './CodexGame';
+import { BoardData } from './DataTypes';
 import { Building } from './Building';
 
 export const BuildingList: FunctionComponent<{
