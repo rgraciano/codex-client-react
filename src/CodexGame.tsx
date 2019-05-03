@@ -4,6 +4,7 @@ import './CodexGame.css';
 
 import { PossibleAction } from './PossibleAction';
 import { BoardArea } from './BoardArea';
+import { Events } from './Events';
 
 export class StringMap {
     [s: string]: string;
@@ -91,6 +92,13 @@ export class GameState {
     playerBoard: BoardData = new BoardData();
     phaseStack: Phase[] = [];
     phase: Phase = new Phase();
+    events: EventDescriptor[] = [];
+}
+
+export class EventDescriptor {
+    eventType: string = '';
+    description: string = '';
+    context: ObjectMap = {};
 }
 
 export const GameStateContext = createContext<GameState>(new GameState());
@@ -145,6 +153,7 @@ export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }
                                     Player {gameState.activePlayer}, Turn {gameState.playerBoard.turnCount}
                                 </h1>
                                 <PossibleAction actionName="EndTurn" actionTitle="End Turn" validateCardOrBuildingId={false} />
+                                <Events eventDescriptors={gameState.events} />
                             </div>
 
                             <div className="boards">

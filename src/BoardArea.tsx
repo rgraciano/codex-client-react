@@ -22,7 +22,8 @@ export const BoardArea: FunctionComponent<{
         <div className="playerBoard">
             <h1>{whoControlsThis == 'player' ? 'Your Board' : 'Opponent Board'} </h1>
             <h3>
-                Gold: {board.gold}, Workers: {board.numWorkers}, Deck: {board.deck.length}, Discard: {board.discard.length}
+                Gold: {board.gold}, Workers: {board.numWorkers} | Hand: {board.hand.length}, Deck: {board.deck.length}, Discard:{' '}
+                {board.discard.length}
             </h3>
 
             <BuildingList board={board} whoControlsThis={whoControlsThis} />
