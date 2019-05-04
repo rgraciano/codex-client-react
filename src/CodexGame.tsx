@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, FunctionComponent } from 'react';
+import { match, RouteComponentProps } from 'react-router-dom';
 import { StringMap, GameState } from './DataTypes';
 
 import './CodexGame.css';
@@ -27,20 +28,26 @@ export const GameStateContext = createContext<GameState>(new GameState());
 
 export const UpdateContext = createContext({ handleUpdate: (payload: StringMap) => {} });
 
-export const CodexGame: FunctionComponent<{ payload: StringMap }> = ({ payload }) => {
+interface GameIdProps {
+    gameStateId: string;
+}
+
+export const CodexGame: FunctionComponent<RouteComponentProps<GameIdProps>> = (newOrId: RouteComponentProps<GameIdProps>) => {
     const [gameState, updateGameState] = useState();
 
     const GameStateProvider = GameStateContext.Provider;
     const UpdateContextProvider = UpdateContext.Provider;
 
     useEffect(() => {
+        let payload: StringMap;
+        if (newOrId && newOrId.match.params.gameStateId)
+            payload = { actionName: 'LoadState', gameStateId: newOrId.match.params.gameStateId };
+        else payload = { actionName: 'NewGame' };
         handleUpdate(payload);
-    }, [payload]);
+    }, [newOrId]);
 
     function handleUpdate(payload: StringMap) {
         if (payload === undefined) return;
-
-        payload.gameStateId = gameState ? gameState.gameStateId : '';
 
         callServer(payload).then(newGameState => {
             if (newGameState.activePlayer == 1) {
