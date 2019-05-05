@@ -69,6 +69,7 @@ export class GameState {
     phaseStack: Phase[] = [];
     phase: Phase = new Phase();
     events: EventDescriptor[] = [];
+    gameStateId: string = '';
 }
 
 export class EventDescriptor {

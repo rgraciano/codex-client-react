@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import { UpdateContext } from './CodexGame';
+import React, { FunctionComponent, useContext } from 'react';
+import { GameStateContext, UpdateContext } from './CodexGame';
 import { StringMap } from './DataTypes';
 
 export const ApiAction: FunctionComponent<{
@@ -9,6 +9,8 @@ export const ApiAction: FunctionComponent<{
     idName?: string;
     extraInfo?: StringMap;
 }> = ({ actionName, actionTitle, idValue, idName, extraInfo }) => {
+    const gameState = useContext(GameStateContext);
+
     let callApiAction = (
         updater: (payload: StringMap) => void,
         actionName: string,
@@ -18,7 +20,7 @@ export const ApiAction: FunctionComponent<{
     ) => (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
 
-        let payload: StringMap = {};
+        let payload: StringMap = { gameStateId: gameState.gameStateId };
         payload.actionName = actionName;
 
         if (idName && idValue) payload[idName] = idValue;
