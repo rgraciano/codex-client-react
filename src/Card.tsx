@@ -232,6 +232,14 @@ export const Card: FunctionComponent<{
                             idValue={cardObject.cardId}
                             validateCardOrBuildingId={true}
                         />
+
+                        <PossibleAction
+                            actionName="DirectDamageChoice"
+                            actionTitle={'Choose: Direct Damage Effect'}
+                            idName="cardId"
+                            idValue={cardObject.cardId}
+                            validateCardOrBuildingId={true}
+                        />
                     </ul>
                 </div>
             </div>
