@@ -9,7 +9,8 @@ import { Welcome } from './Welcome';
 function setupRoutes() {
     return (
         <Router>
-            <Route path="/" exact component={CodexGame} />
+            <Route path="/" exact component={Welcome} />
+            <Route path="/newgame/:spec1/:spec2" exact component={CodexGame} />
             <Route path="/continue/:gameStateId" component={CodexGame} />
         </Router>
     );

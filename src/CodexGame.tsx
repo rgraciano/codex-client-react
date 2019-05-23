@@ -30,9 +30,11 @@ export const UpdateContext = createContext({ handleUpdate: (payload: StringMap) 
 
 interface GameIdProps {
     gameStateId: string;
+    spec1: string;
+    spec2: string;
 }
 
-export const CodexGame: FunctionComponent<RouteComponentProps<GameIdProps>> = (newOrId: RouteComponentProps<GameIdProps>) => {
+export const CodexGame: FunctionComponent<RouteComponentProps<GameIdProps>> = (gameProps: RouteComponentProps<GameIdProps>) => {
     const [gameState, updateGameState] = useState();
 
     const GameStateProvider = GameStateContext.Provider;
@@ -40,11 +42,15 @@ export const CodexGame: FunctionComponent<RouteComponentProps<GameIdProps>> = (n
 
     useEffect(() => {
         let payload: StringMap;
-        if (newOrId && newOrId.match.params.gameStateId)
-            payload = { actionName: 'LoadState', gameStateId: newOrId.match.params.gameStateId };
-        else payload = { actionName: 'NewGame' };
+        if (!gameProps) return;
+
+        if (gameProps.match.params.gameStateId) payload = { actionName: 'LoadState', gameStateId: gameProps.match.params.gameStateId };
+
+        if (gameProps.match.params.spec1 && gameProps.match.params.spec2) {
+            payload = { actionName: 'NewGame', spec1: gameProps.match.params.spec1, spec2: gameProps.match.params.spec2 };
+        } else return;
         handleUpdate(payload);
-    }, [newOrId]);
+    }, [gameProps]);
 
     function handleUpdate(payload: StringMap) {
         if (payload === undefined) return;
